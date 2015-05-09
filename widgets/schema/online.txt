@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS `online_users`;
+CREATE TABLE `online_users` (
+ `id` int(4) NOT NULL AUTO_INCREMENT,
+ `ip` varchar(20) NOT NULL,
+ `time` int(20) NOT NULL,
+ `username` varchar(20) NOT NULL,
+ PRIMARY KEY (`id`),
+ KEY `ip` (`ip`,`time`,`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin2

@@ -1,0 +1,15 @@
+DROP TABLE IF EXISTS `contact_me`;
+CREATE TABLE `contact_me` (
+ `id` int(1) NOT NULL,
+ `facebook` varchar(70) DEFAULT NULL,
+ `twitter` varchar(50) DEFAULT NULL,
+ `www` varchar(50) DEFAULT NULL,
+ `github` varchar(60) DEFAULT NULL,
+ `jabber` varchar(50) DEFAULT NULL,
+ `gg` int(10) DEFAULT NULL,
+ `email` varchar(50) DEFAULT NULL,
+ `irc_node` varchar(50) DEFAULT NULL,
+ `telephone` varchar(15) DEFAULT NULL,
+ `msn` varchar(60) DEFAULT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin2

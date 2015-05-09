@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<author>marcio</author>
+	<description>Widget ktory wyswietla ostatnie wpisy</description>
+	<version>1.0</version>
+	<number_of_news>5</number_of_news>
+</config>

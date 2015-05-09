@@ -1,0 +1,96 @@
+.boxAuth {
+	width: 280px;
+	padding: 0;
+	float: right;
+}
+
+.formAuthInput {
+	height:30px;
+	width:220px;
+	padding:2px;
+	background-color:#ffffff;
+	border:2px solid #B8860B;
+}
+
+#formAuthButton {
+	border: none;
+	background: #333;
+	color: #ffffff;
+	font-weight: bold;
+	padding: 5px 10px;
+	font-size: 12px;
+	font-family: Tahoma, Geneva, sans-serif;
+	letter-spacing: 1px;
+	width: auto;
+	overflow: visible;
+}
+
+.tableAuth table {
+	text-align: center;
+}
+
+.tableAuth td {
+	border-bottom: none;
+	text-align: left;
+}
+
+input[type=checkbox] {
+	visibility: hidden;
+}
+
+.checkbox {
+   width: 80px;
+   height: 26px;
+   margin: 0px;
+   position: relative;
+   background: #fff;
+   border: 1px solid #2e2e2e;
+   border-radius: 2px;
+   -webkit-border-radius: 2px;
+   -moz-border-radius: 2px;
+}
+
+.checkbox:after {
+   content: 'No';
+   font: 12px/26px Arial, sans-serif;
+   color: #b50000;
+   position: absolute;
+   right: 10px;
+   z-index: 0;
+   font-weight: bold;
+}
+
+.checkbox:before {
+   content: 'Yes';
+   font: 12px/26px Arial, sans-serif;
+   color: #00bf00;
+   position: absolute;
+   left: 10px;
+   z-index: 0;
+   font-weight: bold;
+}
+
+.checkbox label {
+   display: block;
+   width: 34px;
+   height: 20px;
+   position: absolute;
+   top: 3px;
+   left: 3px;
+   z-index: 1;
+   background: #2e2e2e;
+   -o-transition: all 0.5s linear;
+   -moz-transition: all 0.5s linear;
+   -khtml-transition: all 0.5s linear;
+   -webkit-transition: all 0.5s linear;
+   -ms-transition: all 0.5s linear;
+   transition: all 0.5s linear;
+   cursor: pointer;
+   border-radius: 2px;
+   -webkit-border-radius: 2px;
+   -moz-border-radius: 2px;
+}
+
+.checkbox input[type=checkbox]:checked + label {
+   left: 43px;
+}

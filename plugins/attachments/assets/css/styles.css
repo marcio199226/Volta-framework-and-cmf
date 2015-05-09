@@ -1,0 +1,17 @@
+.attachmentsPlugin fieldset {
+	padding: 5px;
+	border: 1px solid #000000;
+	margin-bottom: 10px;
+}
+
+.attachmentsPlugin fieldset legend {
+	width: auto;
+}
+
+.attachmentsPlugin  table {
+	width: auto;
+}
+
+.attachmentsPlugin td {
+	border-bottom: none;
+}

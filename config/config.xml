@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<version>1.1.2</version>
+	<frontController>Home</frontController>
+	<frontAction>Index</frontAction>
+	<componentAction>Index</componentAction>
+	<compression_level>8</compression_level>
+	<debug>1</debug>
+	<site_domain>/Vf/</site_domain>
+	<home>index.php</home>
+	<DbType>MySql</DbType>
+	<charset>utf-8</charset>
+	<host>localhost</host>
+	<login>******</login>
+	<pwd>*******</pwd>
+	<db>*******</db>
+</config>

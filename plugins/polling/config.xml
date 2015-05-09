@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<author>marcio</author>
+	<description>Plugin sondy, dodaje mozliwosc tworzenia pytan i ich odpowiedzi</description>
+	<version>1.1</version>
+	<db_table>
+		<table>poll_questions</table>
+		<table>poll_answers</table>
+	</db_table>
+</config>

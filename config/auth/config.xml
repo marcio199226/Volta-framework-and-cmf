@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<guest>1</guest>
+	<cache>0</cache>
+	<cached_action>
+	</cached_action>
+	<lifetime>10800</lifetime>
+	<admin_panel>0</admin_panel>
+	<db_table>users</db_table>
+	<account_ban>1</account_ban>
+	<account_activate>1</account_activate>
+	<session_lifetime>86400</session_lifetime>
+	<remember>1</remember>
+	<remember_lifetime>2592000</remember_lifetime>
+	<autologin_attempt>0</autologin_attempt>
+</config>

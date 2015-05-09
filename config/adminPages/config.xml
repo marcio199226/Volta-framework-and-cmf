@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<guest>0</guest>
+	<cache>0</cache>
+	<cached_action>
+	</cached_action>
+	<lifetime>10800</lifetime>
+	<admin_panel>1</admin_panel>
+	<db_table>
+		<table>components</table>
+		<table>pm_component_plugins</table>
+		<table>ban</table>
+		<table>accounts</table>
+	</db_table>
+</config>

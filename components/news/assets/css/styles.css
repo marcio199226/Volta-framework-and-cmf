@@ -1,0 +1,88 @@
+/* css for list all and read news */
+
+.newsList p {
+	font-size: 12px;
+	color:#000000;
+}
+
+.newsList a {
+	text-decoration:none;
+}
+
+.newsList table {
+	width: 100%;
+}
+
+.newsList td {
+	border-bottom: none;
+}
+
+.linkReadNews {
+	text-align: right;
+}
+
+#aboutNewsDate {
+	font-size: 10px;
+}
+
+.aboutNews a span{
+	color: #000000;
+	font-size: 10px;
+}
+
+.boxNewsRead {
+	width: 100%;
+	padding: 5px;
+}
+
+.boxNewsReadAbout  p {
+	color:#000000;
+	font-size:10px;
+}
+
+.boxNewsReadAbout  a {
+	text-decoration: none;
+}
+
+p.boxNewsReadContent {
+	margin-bottom: 5px;
+	font-size: 12px;
+}
+
+/* css for edit news */
+
+#editNewsButtonConfirm {
+	height: 30px;
+	width: 150px;
+	padding: 2px;
+	background-color: #FFF8DC;
+	border: 1px solid #A9A9A9;
+}
+
+/* admin/add.php css */
+
+#newsAddTranslations {
+	vertical-align: bottom;
+	color: #000000;
+	float: left;
+	width: 500px;
+	padding: 5px;
+	font-size: 18px;
+}
+
+#newsTags {
+	color:#000000;
+	font-size:10px;
+}
+
+.addForm {
+	text-decoration: none;
+}
+
+.imgAlignBottom {
+	vertical-align: bottom;
+}
+
+.alignNewsForms td {
+	padding: 10px 0px;
+}

@@ -1,0 +1,64 @@
+DROP TABLE IF EXISTS `components`;
+CREATE TABLE IF NOT EXISTS `components` (
+ `id` int(3) NOT NULL AUTO_INCREMENT,
+ `page` varchar(15) NOT NULL,
+ `module` varchar(15) NOT NULL,
+ `place` varchar(10) NOT NULL,
+ `component` varchar(15) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+
+DROP TABLE IF EXISTS `pm_component_plugins`;
+CREATE TABLE IF NOT EXISTS `pm_component_plugins` (
+ `p_id` int(5) NOT NULL AUTO_INCREMENT,
+ `p_page` varchar(15) NOT NULL,
+ `p_module` varchar(15) NOT NULL,
+ `p_component` varchar(15) NOT NULL,
+ `plugin` varchar(15) NOT NULL,
+ `active` int(1) NOT NULL DEFAULT '0',
+ PRIMARY KEY (`p_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `login` varchar(15) NOT NULL,
+ `haslo` varchar(40) NOT NULL,
+ `hash` varchar(15) NOT NULL,
+ `email` varchar(25) NOT NULL,
+ `role` varchar(10) NOT NULL,
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `login` (`login`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+INSERT INTO `users` (`id`, `login`, `haslo`, `hash`, `email`, `role`) VALUESb (1, 'admin', 'd6940319ecd9e7dc6d25826c02eff1f5110f711c', '2ks03kf03kf02df', '', 'admin');
+
+DROP TABLE IF EXISTS `restful_api_key`;
+CREATE TABLE `restful_api_key` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `api_key` varchar(40) NOT NULL,
+ `username` varchar(15) NOT NULL,
+ `ip` varchar(15) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin2
+
+
+
+DROP TABLE IF EXISTS `ban`;
+CREATE TABLE `ban` (
+ `ban_id` int(5) NOT NULL AUTO_INCREMENT,
+ `ban_user` varchar(20) NOT NULL,
+ `ban_expire` int(10) unsigned DEFAULT NULL,
+ PRIMARY KEY (`ban_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `locales`;
+CREATE TABLE `locales` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `locale` varchar(3) NOT NULL,
+ `language` varchar(15) NOT NULL,
+ PRIMARY KEY (`id`),
+ KEY `locale` (`locale`,`language`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin2

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<author>marcio</author>
+	<description>Plugin ktory pozwala komentowac tresc za pomoca disquis</description>
+	<version>1.0</version>
+	<depends>
+		<off>
+			<pluginName>comment</pluginName>
+			<pluginName>empty</pluginName>
+		</off>
+	</depends>
+</config>

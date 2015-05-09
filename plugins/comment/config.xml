@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<author>marcio</author>
+	<description>Plugin komentarzy dla gosci jak i zalogowanych uzytkownikow</description>
+	<version>1.0</version>
+	<db_table>comments</db_table>
+	<depends>
+		<off>
+			<pluginName>disquis</pluginName>
+			<pluginName>empty</pluginName>
+		</off>
+	</depends>
+</config>

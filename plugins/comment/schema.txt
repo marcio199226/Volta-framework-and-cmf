@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS `comments` (
+ `id` int(5) NOT NULL AUTO_INCREMENT,
+ `page` varchar(15) NOT NULL,
+ `module` varchar(15) NOT NULL,
+ `component` varchar(15) NOT NULL,
+ `ref_id` int(4) NOT NULL,
+ `author` varchar(20) NOT NULL,
+ `content` text NOT NULL,
+ `data` varchar(30) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=latin1

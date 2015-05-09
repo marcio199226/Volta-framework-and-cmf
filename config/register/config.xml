@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<guest>1</guest>
+	<cache>0</cache>
+	<cached_action>
+		<cached>Index</cached>
+	</cached_action>
+	<lifetime>0</lifetime>
+	<admin_panel>0</admin_panel>
+	<account_activate>1</account_activate>
+</config>

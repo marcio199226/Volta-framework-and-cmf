@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<author>marcio</author>
+	<description>Widget ktora pozwala dzielic sie naszymi kontaktami z roznych zrodel</description>
+	<version>1.0</version>
+	<db_table>contact_me</db_table>
+</config>

@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS `poll_questions` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `page` varchar(20) NOT NULL,
+ `module` varchar(20) NOT NULL,
+ `component` varchar(15) NOT NULL,
+ `ref_id` int(5) NOT NULL,
+ `title` varchar(200) NOT NULL,
+ `date_add` varchar(15) NOT NULL,
+ `date_start` int(10) NOT NULL,
+ `date_expire` int(10) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=latin1
+
+CREATE TABLE IF NOT EXISTS `poll_answers` (
+ `id_answer` int(5) NOT NULL AUTO_INCREMENT,
+ `poll_id` int(5) NOT NULL,
+ `answer` varchar(200) NOT NULL,
+ `votes` int(5) NOT NULL,
+ PRIMARY KEY (`id_answer`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;

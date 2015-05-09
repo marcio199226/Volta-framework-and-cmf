@@ -1,0 +1,33 @@
+.contactMeWidgetText {
+	height:40px;
+	width:400px;
+	padding:2px;
+	background-color:#ffffff;
+	border:2px solid #B8860B;
+}
+
+.editContactMeButton {
+	background: #333;
+	color: #ffffff;
+	font-weight: bold;
+	padding: 5px 10px;
+	font-size: 12px;
+	font-family: Tahoma, Geneva, sans-serif;
+	letter-spacing: 1px;
+	width: 100px;
+	height: 30px;
+	overflow: visible;
+}
+
+.contactMeWidgetSubmit {
+	background: #333;
+	color: #ffffff;
+	font-weight: bold;
+	padding: 5px 10px;
+	font-size: 12px;
+	font-family: Tahoma, Geneva, sans-serif;
+	letter-spacing: 1px;
+	width: 100px;
+	height: 30px;
+	overflow: visible;
+}

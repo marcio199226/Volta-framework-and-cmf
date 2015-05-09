@@ -1,0 +1,19 @@
+<translates>
+	<pl>
+		<dogs>
+			<text>W domu u Oskara %how% %ile% %plural%</text>
+			<pluralize>
+				<plural>
+					<count key="0">pies</count>
+					<count key="1">psy</count>
+					<count key="2">psow</count>
+				</plural>
+				<how>
+					<count key="0">jest</count>
+					<count key="1">sa</count>
+					<count key="2">jest</count>
+				</how>
+			</pluralize>
+		</dogs>
+	</pl>
+</translates>

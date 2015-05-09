@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<author>marcio</author>
+	<description>Plugin pozwalajacy dolaczac zalaczniki do tresci</description>
+	<version>1.0</version>
+	<db_table>attachments</db_table>
+</config>
