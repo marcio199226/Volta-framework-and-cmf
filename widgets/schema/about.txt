@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS `about_me`;
 CREATE TABLE `about_me` (
- `id` int(1) NOT NULL,
+ `id` int(3) NOT NULL AUTO_INCREMENT,
  `contents` text NOT NULL,
+ `locale` varchar(3) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin2
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin2

@@ -98,9 +98,9 @@ class Vf_news_Model extends Vf_Orm
 	}
 	
 	
-	public function editTranslationsNews($data, $id)
+	public function editTranslationsNews($data, $id, $lang)
 	{
-		return $this -> db -> Update('news_translations', $data, array('id_news' => $id));
+		return $this -> db -> Update('news_translations', $data, array('id_news' => $id, 'language' => $lang));
 	}
 	
 	

@@ -142,7 +142,7 @@ class Vf_news_Admin_Component extends Vf_Controller
 						'content' => $request -> post('content'),
 					);
 				
-					if($model -> editTranslationsNews($newsTranslations, $uri -> getSegment(3)))
+					if($model -> editTranslationsNews($newsTranslations, $uri -> getSegment(3), $translate -> get() -> getLang()))
 					{
 						$viewEdit -> msg_edit_news = Vf_Translate_Helper::__('Edytowano wpis');
 					}

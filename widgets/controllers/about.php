@@ -42,7 +42,6 @@ class Vf_about_Widget extends Vf_Widget_Abstract implements IWidget
 
 					$this -> container -> request -> response 
 						-> sendHttpHeaders(array(
-							'Content-Type'  => 'text/octet-stream',
 							'Cache-Control' => 'no-cache',
 							'Content-Type'  => 'application/json'
 						)) 
@@ -54,6 +53,10 @@ class Vf_about_Widget extends Vf_Widget_Abstract implements IWidget
 				else
 				{
 					$this -> container -> request -> response 
+						-> sendHttpHeaders(array(
+							'Cache-Control' => 'no-cache',
+							'Content-Type'  => 'application/json'
+						)) 
 						-> setJson(array('msg' => Vf_Translate_Helper::__('aboutMeWidgetNotSaved')))
 						-> getJson();
 						
