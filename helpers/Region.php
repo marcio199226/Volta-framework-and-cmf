@@ -10,7 +10,6 @@
 
 class Vf_Region_Helper
 {
-
 	public static function cacheStart()
 	{
 		ob_start();
@@ -23,9 +22,9 @@ class Vf_Region_Helper
 		ob_end_clean();
 		
 		$user = new Vf_User();
-		$regionCacheName = $id.$user -> user();
+		$regionCacheName = $id . $user->user();
 		$cache = new Vf_Cache();
-		$cache -> setCache($regionCacheName, $region, $lifetime);
+		$cache->setCache($regionCacheName, $region, $lifetime);
 		return $region;
 	}
 	
@@ -33,9 +32,9 @@ class Vf_Region_Helper
 	public static function getCache($id, $lifetime = 900)
 	{
 		$user = new Vf_User();
-		$regionCacheName = $id.$user -> user();
+		$regionCacheName = $id . $user->user();
 		$cache = new Vf_Cache();
-		return $cache -> getCache($regionCacheName, $lifetime);
+		return $cache->getCache($regionCacheName, $lifetime);
 	}
 }
 ?>

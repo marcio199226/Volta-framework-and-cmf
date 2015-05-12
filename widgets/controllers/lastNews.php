@@ -1,14 +1,14 @@
 <?php
 
 /**
-*Volta framework
+* Volta framework
 
-*@author marcio <opi14@op.pl>, <polishvodka7@gmail.com>
-*@copyright Copyright (c) 2012, marcio
-*@version 1.0
+* @author marcio <opi14@op.pl>, <polishvodka7@gmail.com>
+* @copyright Copyright (c) 2012, marcio
+* @version 1.0
 */
 
-require_once(DIR_INTERFACES.'IWidget.php');
+require_once(DIR_INTERFACES . 'IWidget.php');
 
 class Vf_lastNews_Widget implements IWidget
 {	
@@ -18,14 +18,14 @@ class Vf_lastNews_Widget implements IWidget
 		$config = new Vf_Config(DIR_WIDGETS_CFG.'lastNews.xml', 'Xml');
 		
 		$translate = Vf_Language::instance();
-		$translate -> get() -> load('widgets/lastNews.php');
+		$translate->get()->load('widgets/lastNews.php');
 		
 		$view = new Vf_View('lastNews', 'widget');
-		$view -> importFunctions('common');
-		$view -> loadHelper('Uri');
-		$view -> news = $model -> getLatestNews($config -> number_of_news, $translate -> get() -> getLang());
+		$view->importFunctions('common');
+		$view->loadHelper('Uri');
+		$view->news = $model->getLatestNews($config->number_of_news, $translate->get()->getLang());
 		
-		return $view -> render();
+		return $view->render();
 	}
 }
 

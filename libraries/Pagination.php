@@ -42,64 +42,61 @@ class Vf_Pagination
 	
 	public function __construct()
 	{
-		$this -> uri = new Vf_Router();
-		$this -> configRouter = new Vf_Config('config.Router');
-		$this -> config = new Vf_Config('config.Pagination');
-		$this -> view = $this -> config -> view;
+		$this->uri = new Vf_Router();
+		$this->configRouter = new Vf_Config('config.Router');
+		$this->config = new Vf_Config('config.Pagination');
+		$this->view = $this->config->view;
 	}
 	
 	
 	protected function processPagination()
 	{
-		$this -> pages = ceil(($this -> getTotal() / $this -> getPerPage()));
-		$this -> pagination['current'] = ($this -> uri -> getSegment($this -> getUriSegment()-1) == 'page') ? $this -> uri -> getSegment($this -> getUriSegment()) : 0;
+		$this->pages = ceil(($this->getTotal() / $this->getPerPage()));
+		$this->pagination['current'] = ($this->uri->getSegment($this->getUriSegment()-1) == 'page') ? $this->uri->getSegment($this->getUriSegment()) : 0;
 		
-		$this -> pagination['last'] = $this -> pages;	
-		$this -> pagination['first'] = 1;	
+		$this->pagination['last'] = $this->pages;	
+		$this->pagination['first'] = 1;	
 				
-		if($this -> pagination['current'] < 1)
-			$this -> pagination['current'] = 1;
-		else if(($this -> pagination['current'] - 1) > 1)
-			$this -> pagination['prev'] = $this -> pagination['current'] - 1;
+		if($this->pagination['current'] < 1) {
+			$this->pagination['current'] = 1;
+		} elseif (($this->pagination['current'] - 1) > 1) {
+			$this->pagination['prev'] = $this->pagination['current'] - 1;
+		}
 			
-		if(($this -> pagination['current'] + 1) <= $this -> pages)
-			$this -> pagination['next'] = $this -> pagination['current'] + 1;
-		else 
-			$this -> pagination['next'] = 0;
+		if(($this->pagination['current'] + 1) <= $this->pages) {
+			$this->pagination['next'] = $this->pagination['current'] + 1;
+		} else {
+			$this->pagination['next'] = 0;
+		}
 	}
 	
 	
 	protected function createUrls()
 	{	
-		$this -> urls['page'] = ($this -> uri -> getSegment($this -> getUriSegment()-1) == 'page') ? $this -> uri -> getSegment($this -> getUriSegment()) : 1;
-		$base = ($this -> getBaseUrl() != '') ? $this -> getBaseUrl() : '';
+		$this->urls['page'] = ($this->uri->getSegment($this->getUriSegment()-1) == 'page') ? $this->uri->getSegment($this->getUriSegment()) : 1;
+		$base = ($this->getBaseUrl() != '') ? $this->getBaseUrl() : '';
 		
-		foreach($this -> pagination as $key => $urlParam)
-		{
-			$this -> urls[$key]['link'] = $base.'page'.$this -> configRouter -> delimiter.$urlParam;
-			$this -> urls[$key]['param'] = $urlParam;
+		foreach ($this->pagination as $key => $urlParam) {
+			$this->urls[$key]['link'] = $base . 'page' . $this->configRouter->delimiter . $urlParam;
+			$this->urls[$key]['param'] = $urlParam;
 		}
 	}
 	
 	
 	public function display($create_url = false)
 	{
-		$this -> processPagination();
-		if($this -> pages == 1)
-		{
+		$this->processPagination();
+		if ($this->pages == 1) {
 			return;
 		}
-		if(!$create_url)
-		{
-			return $this -> pagination;
-		}
-		else
-		{
-			$this -> createUrls();
-			extract($this -> urls, EXTR_SKIP);
+		if (!$create_url) {
+			return $this->pagination;
+		} else {
+			$this->createUrls();
+			extract($this->urls, EXTR_SKIP);
 			ob_start();
 		
-			include(DIR_VIEWS.'Pagination/'.$this -> view.'.php');
+			include(DIR_VIEWS . 'Pagination/' . $this->view . '.php');
 			$pager = ob_get_contents();
 			ob_end_clean();
 			return $pager;
@@ -109,106 +106,102 @@ class Vf_Pagination
 	
 	public function getUriSegment()
 	{
-		return $this -> uriSegment;
+		return $this->uriSegment;
 	}
 	
 	
 	public function getBaseUrl()
 	{
-		return $this -> baseUrl;
+		return $this->baseUrl;
 	}
 	
 	
 	public function getPerPage()
 	{
-		return $this -> perPage;
+		return $this->perPage;
 	}
 	
 	
 	public function getOffset()
 	{
-		$start = ($this -> uri -> getSegment($this -> getUriSegment()-1) == 'page') ? $this -> uri -> getSegment($this -> getUriSegment()) : 0;
-		
-		if($start == 0)
-		{
+		$start = ($this->uri->getSegment($this->getUriSegment()-1) == 'page') ? $this->uri->getSegment($this->getUriSegment()) : 0;
+		if($start == 0) {
 			return 0;
-		}
-		else
-		{
-			return ($start-1) * $this -> getPerPage();
+		} else {
+			return ($start-1) * $this->getPerPage();
 		}
 	}
 	
 	
 	public function getTotal()
 	{
-		return $this -> total;
+		return $this->total;
 	}
 	
 	
 	public function getCurrentPage()
 	{
-		return $this -> pagination['current'];
+		return $this->pagination['current'];
 	}
 	
 	
 	public function getFirst()
 	{
-		return $this -> pagination['first'];
+		return $this->pagination['first'];
 	}
 	
 	
 	public function getLast()
 	{
-		return $this -> pagination['last'];
+		return $this->pagination['last'];
 	}
 	
 	
 	public function setPerPage($perPage)
 	{
-		$this -> perPage = $perPage;
+		$this->perPage = $perPage;
 	}
 	
 	
 	public function setTotal($total)
 	{
-		$this -> total = $total;
+		$this->total = $total;
 	}
 	
 
 	public function setCurrentPage($current)
 	{
-		$this -> currentPage = $current;
+		$this->currentPage = $current;
 	}
 	
 	
 	public function setFirst($first)
 	{
-		$this -> first = $first;
+		$this->first = $first;
 	}
 	
 	
 	public function setLast($last)
 	{
-		$this -> last = $last;
+		$this->last = $last;
 	}
 	
 	
 	public function setBaseUrl($url = '')
 	{
-		$this -> baseUrl = $url;
+		$this->baseUrl = $url;
 	}
 	
 	
 	public function setUriSegment($segment)
 	{
-		$this -> uriSegment = $segment-1;
+		$this->uriSegment = $segment-1;
 	}
 	
 	
 	public function setView($view)
 	{
-		$this -> view = $view;
+		$this->view = $view;
 	}
 }
 ?>

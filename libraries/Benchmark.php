@@ -14,7 +14,6 @@ class Vf_Benchmark
 {
 	protected static $benchmark = array();
 	
-	
 	public static function start($id)
 	{
 		self::$benchmark[$id]['start'] = microtime(true);
@@ -41,10 +40,10 @@ class Vf_Benchmark
 		$mem = number_format($memory, 2);
 		
 		return array(
-						'time' => $time,
-						'memory' => $mem.'MB',
-						'sql' => $queries
-					);
+			'time' => $time,
+			'memory' => $mem.'MB',
+			'sql' => $queries
+		);
 	}
 	
 	

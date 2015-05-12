@@ -14,71 +14,71 @@ abstract class Vf_Validation
 {
 
 	/**
-	*Skladowa klasy ktora przechowywuje ustawienia walidacji
-	*@access protected
-	*@var array $config
+	* Skladowa klasy ktora przechowywuje ustawienia walidacji
+	* @access protected
+	* @var array $config
 	*/
 	protected $config = array();
 
 	/**
-	*Skladowa klasy ktora przechowywuje instancje klasy Language
-	*@access protected
-	*@var object $language
+	* Skladowa klasy ktora przechowywuje instancje klasy Language
+	* @access protected
+	* @var object $language
 	*/
 	protected $language = null;
 	
 	
 	/**
-	*Tworzymy instancje klasy do obslugi jezykow dla bledow zwracanych przez walidatory
-	*@access public
-	*@param string $file
+	* Tworzymy instancje klasy do obslugi jezykow dla bledow zwracanych przez walidatory
+	* @access public
+	* @param string $file
 	*/
 	public function __construct($file = 'Validation.php')
 	{
-		$this -> language = new Vf_Language($file);
+		$this->language = new Vf_Language($file);
 	}
 
 	
 	/**
-	*Metoda ustawia konfiguracje
-	*@access public 
-	*@param array $config
+	* Metoda ustawia konfiguracje
+	* @access public 
+	* @param array $config
 	*/
 	public function configure($config)
 	{
-		$this -> config = $config;
+		$this->config = $config;
 	}
 	
 	
 	/**
-	*Metoda zwraca nam dana wartosc z konfiguracji walidacji
-	*@access public 
-	*@param string $key
-	*@return mixed 
+	* Metoda zwraca nam dana wartosc z konfiguracji walidacji
+	* @access public 
+	* @param string $key
+	* @return mixed 
 	*/
 	public function get_option($key)
 	{
-		return (isset($this -> config[$key])) ? $this -> config[$key] : null;
+		return (isset($this->config[$key])) ? $this->config[$key] : null;
 	}
 	
 	
 	/**
-	*Metoda zwraca pelna konfiguracje walidacji
-	*@access public 
-	*@return array
+	* Metoda zwraca pelna konfiguracje walidacji
+	* @access public 
+	* @return array
 	*/
 	public function get_options()
 	{
-		return $this -> config;
+		return $this->config;
 	}
 	
 	
 	/**
-	*Ustawiamy tresc bledy ustawiajac tez nazwe pola
-	*@access protected
-	*@param string tresc bledu
-	*@param string nazwa pola
-	*@return string
+	* Ustawiamy tresc bledy ustawiajac tez nazwe pola
+	* @access protected
+	* @param string tresc bledu
+	* @param string nazwa pola
+	* @return string
 	*/
 	protected function set_error($errorMsg, $fieldname = '') 
 	{

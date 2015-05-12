@@ -22,54 +22,49 @@ class Vf_Language
 	
 	public function __construct($file = null)
 	{	
-		$adapter = $this -> _getClassAdapter($file);
-		$this -> _loadDriver($adapter, $file);
+		$adapter = $this->getClassAdapter($file);
+		$this->loadDriver($adapter, $file);
 	}
 	
 	
 	public static function instance()
 	{
-		if(self::$instance === null)
-		{
+		if (self::$instance === null) {
 			self::$instance = new self();
 		}
 		return self::$instance;
 	}
 	
 	
-	protected function _loadDriver($adapter, $file)
+	protected function loadDriver($adapter, $file)
 	{
-		if(Vf_Loader::existsFile(DIR_DRIVERS.'Language/'.$adapter.'.php'))
-		{
-			require_once(DIR_DRIVERS.'Language/'.$adapter.'.php');
-			$className = 'Vf_Language_'.$adapter.'_Adapter';
+		if (Vf_Loader::existsFile(DIR_DRIVERS . 'Language/' . $adapter . '.php')) {
+			require_once(DIR_DRIVERS . 'Language/' . $adapter . '.php');
+			$className = 'Vf_Language_' . $adapter . '_Adapter';
 	
-			if(class_exists($className))
-			{
-				$this -> driver = new $className();
-				
-				if($file !== null)
-				{
-					$this -> driver -> load($file);
+			if (class_exists($className)) {
+				$this->driver = new $className();
+				if ($file !== null) {
+					$this->driver->load($file);
 				}
 			}
+		} else {
+			throw new Vf_LanguageDriverNotFound_Exception("Adapter {$adapter} not found");
 		}
-		else throw new Vf_LanguageDriverNotFound_Exception("Adapter {$adapter} not found");
 	}
 	
 	
 	public function get()
 	{
-		return $this -> driver;
+		return $this->driver;
 	}
 	
 	
-	private function _getClassAdapter($file)
+	private function getClassAdapter($file)
 	{
-		if($file !== null)
-		{
+		if($file !== null) {
 			$extension = end(explode('.', $file));
-			return $this -> extensionsAdapter[$extension];
+			return $this->extensionsAdapter[$extension];
 		}
 		return 'Array';
 	}

@@ -33,14 +33,10 @@ class Vf_BBCode_Helper
 	public static function cutText($text, $words = 15, $endText = '...')
 	{
 		$txt = explode(" ", $text);
-		
-		if(sizeof($txt) > $words)
-		{
+		if (sizeof($txt) > $words) {
 			array_splice($txt, $words, sizeof($txt));
 			return implode(" ", array_merge($txt, (array)$endText));
-		}
-		else
-		{
+		} else {
 			return implode(" ", $txt);
 		}
 	}
@@ -50,12 +46,11 @@ class Vf_BBCode_Helper
 	{
 		$geshi = new GeSHi(htmlspecialchars_decode($settings[2]), $settings[1]);
 		
-		if($line)
-		{
-			$geshi -> enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
+		if($line) {
+			$geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
 		}
-		$geshi -> set_header_type(GESHI_HEADER_NONE);
-		$code = $geshi -> parse_code();	
+		$geshi->set_header_type(GESHI_HEADER_NONE);
+		$code = $geshi->parse_code();	
 		$code = str_replace("<br />", "", $code);
 		return $code;
 	}

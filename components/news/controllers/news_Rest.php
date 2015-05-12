@@ -31,14 +31,14 @@ class Vf_news_Rest_Component extends Vf_RestfulServer
 		if($req -> method() == Vf_Request::PUT)
 		{
 			//try without this method if apikey is set to false and check if parameters exists
-			//$this -> _retrieveParameters();
+			//$this -> retrieveParameters();
 			
-			if(sizeof($this -> _getParameters()) > 0)
+			if(sizeof($this -> getParameters()) > 0)
 			{
 				//validate data and throw possible errors
 				$validation = new Vf_Validator();
 				$validation -> load('str');
-				$validation -> add_data($this -> _getParameters());
+				$validation -> add_data($this -> getParameters());
 				$validation -> add_rule('title', new str(array('field' => 'title', 'required' => true, 'alphadigit' => true, 'between' => array(5, 40))));
 				$validation -> add_rule('content', new str(array('field' => 'content', 'required' => true)));
 				$validation -> validation();

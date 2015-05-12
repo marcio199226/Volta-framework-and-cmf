@@ -16,8 +16,8 @@ class Vf_Plugin
 	
 	public function configure($settings)
 	{
-		$this -> settings = $settings;
-		$this -> container = Vf_Core::getContainer();
+		$this->settings = $settings;
+		$this->container = Vf_Core::getContainer();
 	}
 }
 

@@ -40,15 +40,15 @@ define('DIR_CSS' , 'css/');
 define('DIR_JS' , 'js/');
 
 //include required classess
-require_once(DIR_LIBRARY.'Loader.php');
-require_once(DIR_LIBRARY.'Event.php');
-require_once(DIR_LIBRARY.'Di.php');
-require_once(DIR_LIBRARY.'Benchmark.php');
+require_once(DIR_LIBRARY . 'Loader.php');
+require_once(DIR_LIBRARY . 'Event.php');
+require_once(DIR_LIBRARY . 'Di.php');
+require_once(DIR_LIBRARY . 'Benchmark.php');
 
 //load all events class
-Vf_Loader::LoadFile(DIR_EVENTS.'*.php', true);
+Vf_Loader::LoadFile(DIR_EVENTS . '*.php', true);
 //load all exceptions class for libraries
-Vf_Loader::LoadFile(DIR_EXCEPTIONS.'*.php', true);
+Vf_Loader::LoadFile(DIR_EXCEPTIONS . '*.php', true);
 
 //set error handler, exception handler and autoload class
 error_reporting(E_ALL);
@@ -74,18 +74,14 @@ final class Vf_Core
 	*/
 	public function __construct()
 	{
-		if(Vf_Loader::existsFile(DIR_LIBRARY.'Router.php'))
-		{
-			require_once(DIR_LIBRARY.'Router.php');
-		}
-		else
-		{
+		if (Vf_Loader::existsFile(DIR_LIBRARY . 'Router.php')) {
+			require_once(DIR_LIBRARY . 'Router.php');
+		} else {
 			throw new Exception("Nie znaleziono biblioteki routera");
 		}
-			
-		$this -> container = self::getContainer();
+		$this->container = self::getContainer();
 		//register system events
-		$this -> _setEvents($this -> container -> configCore -> events);
+		$this->setEvents($this->container->configCore->events);
 	}
 
 	
@@ -96,67 +92,54 @@ final class Vf_Core
 	*/
 	public function dispatch()
 	{
-		try
-		{	
-			$appController = $this -> container -> router -> getFrontController();
-			$appAction = $this -> container -> router -> getFrontControllerAction();
+		try {	
+			$appController = $this->container->router->getFrontController();
+			$appAction = $this->container->router->getFrontControllerAction();
 			
-			if(Vf_Loader::existsFile(DIR_FRONT.$appController.'.php'))
-			{
+			if (Vf_Loader::existsFile(DIR_FRONT . $appController . '.php')) {
 				Vf_Benchmark::start('core');
-				require_once(DIR_FRONT.$appController.'.php');
+				require_once(DIR_FRONT . $appController . '.php');
 				
-				$appControllerClassName = 'Vf_'.$appController.'_FrontController';
+				$appControllerClassName = 'Vf_' . $appController . '_FrontController';
 				
-				if(class_exists($appControllerClassName))
-				{
+				if (class_exists($appControllerClassName)) {
 					Vf_Event::runEvent('system.pre.controller.constructor');
 					$app = new $appControllerClassName();
 					Vf_Event::runEvent('system.post.controller.constructor');
 					
-					if(method_exists($app, $appAction))
-					{
+					if (method_exists($app, $appAction)) {
 						Vf_Event::runEvent('system.pre.action');
-						$output = $app -> $appAction();
+						$output = $app->$appAction();
 						Vf_Event::runEvent('system.post.action');
-					}
-					else if($app instanceof Vf_Controller)
-					{
-						$action = $this -> container -> config -> frontAction;
-						
+					} elseif ($app instanceof Vf_Controller) {
+						$action = $this->container->config->frontAction;
 						Vf_Event::runEvent('system.pre.action');
-						$output = $app -> $action();
+						$output = $app->$action();
 						Vf_Event::runEvent('system.post.action');
 					}
 					
 					Vf_Benchmark::stop('core');
 					
-					if(!$this -> container -> request -> isRestful())
-					{
+					if(!$this->container->request->isRestful()) {
 						Vf_Event::runEvent('system.display', $output);
 					}
 					
 					//if compression is turned off set response becouse Vf_CompressApp_Events didn't do anything
 					//moved this part to CompressApp event class
 					/*
-					if($this -> container -> config -> compression_level == 0)
+					if($this->container->config->compression_level == 0)
 					{
-						$this -> container -> request -> response
+						$this->container->request->response
 							-> setHttpStatus(200)
 							-> setResponse($output);
 					}
 					*/
-					
-					print $this -> container -> request -> response;
+					print $this->container->request->response;
 				}
-			}
-			else
-			{
+			} else {
 				self::Error(404);
 			}
-		}
-		catch(Exception $e)
-		{
+		} catch (Exception $e) {
 			self::logAdd($e);
 			self::Error(503);
 		}
@@ -168,21 +151,15 @@ final class Vf_Core
 	*@access public 
 	*@param array $events tablica z eventami
 	*/
-	private function _setEvents($events)
+	private function setEvents($events)
 	{
-		if(is_array($events) && sizeof($events) > 0)
-		{
-			foreach($events as $eventsName => $data)
-			{
-				foreach($data as $class)
-				{
-					if(!is_string($class[0]))
-					{
+		if (is_array($events) && sizeof($events) > 0) {
+			foreach ($events as $eventsName => $data) {
+				foreach ($data as $class) {
+					if(!is_string($class[0])) {
 						Vf_Event::addEvent($eventsName, $class[0], $class[1]);
-					}
-					else
-					{
-						Vf_Event::addEvent($eventsName, new $class[0]($this -> container), $class[1]);
+					} else {
+						Vf_Event::addEvent($eventsName, new $class[0]($this->container), $class[1]);
 					}
 				}
 			}
@@ -200,83 +177,58 @@ final class Vf_Core
 		$container = Vf_Di_Container::instance();
 		$config = new Vf_Config('config.Core');
 
-		if(sizeof($config -> container['objects']) > 0)
-		{
-			foreach($config -> container['objects'] as $di)
-			{
-				if(!isset($di['closure']))
-				{
-					if(isset($di['method']))
-					{
-						if($di['is_static'])
-						{
-							$container -> $di['propertyName'] = call_user_func(array($di['class'], $di['method']));
-						}
-						else
-						{
+		if (sizeof($config->container['objects']) > 0) {
+			foreach ($config->container['objects'] as $di) {
+				if (!isset($di['closure'])) {
+					if (isset($di['method'])) {
+						if ($di['is_static']) {
+							$container->$di['propertyName'] = call_user_func(array($di['class'], $di['method']));
+						} else {
 							$object = new $di['class']();
-							$container -> $di['propertyName'] = call_user_func(array($object, $di['method']));
+							$container->$di['propertyName'] = call_user_func(array($object, $di['method']));
 						}
+					} else {
+						$container->$di['propertyName'] = new $di['class']();
 					}
-					else
-					{
-						$container -> $di['propertyName'] = new $di['class']();
-					}
-				}
-				else
-				{
-					$container -> $di['propertyName'] = function() use($container, $di) {
+				} else {
+					$container->$di['propertyName'] = function() use($container, $di) {
 						$closure = $di['closure'];
 						return $closure($container);
 					};
 				}
 			}
 		}
-		if(sizeof($config -> container['shared']) > 0)
-		{
-			foreach($config -> container['shared'] as $shared)
-			{
-				if(!isset($shared['closure']))
-				{
-					if(!isset($shared['args']))
-					{
-						$container -> share($shared['propertyName'], function() use($container, $shared) {
+		if (sizeof($config->container['shared']) > 0) {
+			foreach ($config->container['shared'] as $shared) {
+				if (!isset($shared['closure'])) {
+					if (!isset($shared['args'])) {
+						$container->share($shared['propertyName'], function() use($container, $shared) {
 							return new $shared['class']();
 						});
-					}
-					else
-					{
-						try
-						{
-							$container -> share($shared['propertyName'], function() use($container, $shared) {
+					} else {
+						try {
+							$container->share($shared['propertyName'], function() use($container, $shared) {
 								$class = new ReflectionClass($shared['class']);
-								return $class -> newInstanceArgs($shared['args']);
+								return $class->newInstanceArgs($shared['args']);
 							});
-						}
-						catch(ReflectionException $e)
-						{
+						} catch (ReflectionException $e) {
 							self::logAdd($e);
 							self::Error(503);
 						}
 					}
-				}
-				else
-				{
-					$container -> share($shared['propertyName'], function() use($container, $shared) {
+				} else {
+					$container->share($shared['propertyName'], function() use($container, $shared) {
 						$closure = $shared['closure'];
 						return $closure($container);
 					});
 				}
 			}
 		}
-		if(sizeof($config -> container['proprieties']) > 0)
-		{
-			foreach($config -> container['proprieties'] as $key => $property)
-			{
-				$container -> $key = $property($container);
+		if (sizeof($config->container['proprieties']) > 0) {
+			foreach ($config->container['proprieties'] as $key => $property) {
+				$container->$key = $property($container);
 			}
 		}
-		
 		return $container;
 	}
 	
@@ -290,17 +242,16 @@ final class Vf_Core
 	*/
 	public static function Error($error) 
 	{
-		if(file_exists(DIR_VIEWS.$error.'.php')) 
-		{
+		if(file_exists(DIR_VIEWS . $error . '.php')) {
 			ob_end_clean();
 			$request = new Vf_Request();
 			
-			print $request -> response
-					-> setHttpStatus($error)
-					-> setResponse(file_get_contents(DIR_VIEWS.$error.'.php'))
-					-> getResponse();
+			print $request->response
+				-> setHttpStatus($error)
+				-> setResponse(file_get_contents(DIR_VIEWS . $error . '.php'))
+				-> getResponse();
 					
-			$request -> response -> flushContents();
+			$request->response->flushContents();
 		}
 	}
 	
@@ -314,14 +265,14 @@ final class Vf_Core
 	public static function logAdd($exception)
 	{
 		$eName = new ReflectionClass($exception);
-		$class = $eName -> getName();
-		$error = "caught: ".$class." ";
+		$class = $eName->getName();
+		$error = "caught: " . $class . " ";
 		$error  .= date('d-m-Y H.i.s');
 		$error .= "\n";
-		$error  .= "File: ".$exception -> getFile();
-		$error  .= " Line: ".$exception -> getLine()."\n";
-		$error  .= "Message: ".$exception -> getMessage()."\n\n";
-		file_put_contents(DIR_LOG.'logs.php', $error, FILE_APPEND | LOCK_EX);
+		$error  .= "File: " . $exception->getFile();
+		$error  .= " Line: " . $exception->getLine() . "\n";
+		$error  .= "Message: " . $exception->getMessage() . "\n\n";
+		file_put_contents(DIR_LOG . 'logs.php', $error, FILE_APPEND | LOCK_EX);
 	}
 }
 
@@ -330,8 +281,8 @@ class Error_Exception extends Exception
 {
 	public function __construct($err, $num, $file, $line)
 	{
-		$this -> file = $file;
-		$this -> line = $line;
+		$this->file = $file;
+		$this->line = $line;
 		parent::__construct($err, $num); 
 	}
 }
@@ -342,14 +293,14 @@ class Exception_Handler
 	public static function Handler(Exception $e)
 	{
 		$eName = new ReflectionClass($e);
-		$class = $eName -> getName();
-		$exception = "Uncaught: ".$class." ";
+		$class = $eName->getName();
+		$exception = "Uncaught: " . $class . " ";
 		$exception  .= date('d-m-Y H.i.s');
 		$exception .= "\n";
-		$exception  .= "File: ".$e -> getFile();
-		$exception  .= " Line: ".$e -> getLine()."\n";
-		$exception  .= "Message: ".$e -> getMessage()."\n\n";
-		file_put_contents(DIR_LOG.'logs.php', $exception, FILE_APPEND | LOCK_EX);
+		$exception  .= "File: " . $e->getFile();
+		$exception  .= " Line: " . $e->getLine() . "\n";
+		$exception  .= "Message: " . $e->getMessage() . "\n\n";
+		file_put_contents(DIR_LOG . 'logs.php', $exception, FILE_APPEND | LOCK_EX);
 		Vf_Core::Error(503);
 	}
 }
@@ -359,10 +310,8 @@ class Error_Handler
 {
 	public function Handler($num, $err, $file, $line)
 	{
-		if($num != E_NOTICE)
-		{
-			if (error_reporting() & $num)
-			{
+		if($num != E_NOTICE) {
+			if (error_reporting() & $num) {
 				throw new Error_Exception($err, $num, $file, $line);
 			}
 		}

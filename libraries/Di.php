@@ -53,7 +53,7 @@ class Vf_Di_Container
 	*/
 	public function __set($key, $value) 
 	{
-		$this -> container[$key] = $value; 
+		$this->container[$key] = $value; 
 	}
  
  
@@ -65,17 +65,12 @@ class Vf_Di_Container
 	*/
 	public function __get($key) 
 	{
-		if(array_key_exists($key, $this -> container))
-		{
-			return (is_callable($this -> container[$key])) ? $this -> container[$key]($this) : $this -> container[$key];
-		}
-		else if(array_key_exists($key, self::$sharedContainer))
-		{
+		if (array_key_exists($key, $this->container)) {
+			return (is_callable($this->container[$key])) ? $this->container[$key]($this) : $this->container[$key];
+		} elseif (array_key_exists($key, self::$sharedContainer)) {
 			return self::$sharedContainer[$key];
-		}
-		else
-		{
-			throw new Vf_Di_Container_Exception('Container: missing property: '.$key);
+		} else {
+			throw new Vf_Di_Container_Exception('Container: missing property: ' . $key);
 		}
 	}
     
@@ -88,9 +83,8 @@ class Vf_Di_Container
 	*/
 	public function share($key, Closure $closure)
 	{
-		if(!array_key_exists($key, self::$sharedContainer))
-		{
-			self::$sharedContainer[$key] = $closure -> __invoke();
+		if (!array_key_exists($key, self::$sharedContainer)) {
+			self::$sharedContainer[$key] = $closure->__invoke();
 		}
 	}
 	
@@ -103,8 +97,7 @@ class Vf_Di_Container
 	*/
 	public static function &instance()
 	{
-		if(self::$instance === null)
-		{
+		if (self::$instance === null) {
 			self::$instance = new self();
 		}
 		return self::$instance;
@@ -124,26 +117,20 @@ class Vf_Di_Container
 		static $configDi = null;
 		static $configCore = null;
 		
-		if($configDi === null)
-		{
+		if ($configDi === null) {
 			$configDi = new Vf_Config('config.Di');
 		}
 		
-		if($configCore === null)
-		{
+		if ($configCore === null) {
 			$configCore = new Vf_Config('config.Core');
 		}
 		
         // checking if the class exists
-        if(!class_exists($className)) 
-		{
-			if($configDi -> dependency_include_files)
-			{
-				self::_includeRequiredFileClass($className, $configCore -> di);
-			}
-			else
-			{
-				throw new Vf_Di_Container_Exception('DI: missing class '.$className);
+        if (!class_exists($className))  {
+			if ($configDi->dependency_include_files) {
+				self::includeRequiredFileClass($className, $configCore->di);
+			} else {
+				throw new Vf_Di_Container_Exception('DI: missing class ' . $className);
 			}
         }
             
@@ -151,62 +138,48 @@ class Vf_Di_Container
         $reflection = new ReflectionClass($className);
             
         // creating an instance of the class
-        if($arguments === null || count($arguments) == 0) 
-		{
+        if ($arguments === null || count($arguments) == 0) {
             $obj = new $className;
-        } 
-		else 
-		{
-            if(!is_array($arguments)) 
-			{
+        }  else {
+            if (!is_array($arguments)) {
                 $arguments = array($arguments);
             }
-            $obj = $reflection -> newInstanceArgs($arguments);
+            $obj = $reflection->newInstanceArgs($arguments);
         }
 
-
         // get keys from inject
-		if($doc = $reflection -> getDocComment()) 
-		{
+		if ($doc = $reflection->getDocComment())  {
 			preg_match_all("/@Inject [A-Za-z0-9]{1,}/", $doc, $matches);
 			$keys = array();
-			foreach($matches[0] as $k => $v)
-			{
-				$q = explode(' ', $v);
+			foreach ($matches[0] as $key => $value) {
+				$q = explode(' ', $value);
 				$keys[] = $q[1];
 			}
 		}
 		
 		//if dependency_config is turned on set class and values according to the configuration array present in config/Core/config.php
-		if($configDi -> dependency_config)
-		{
-			self::_setDependencyInjectionData($configCore);
+		if($configDi->dependency_config) {
+			self::setDependencyInjectionData($configCore);
 		}
 		
-		foreach($keys as $key)
-		{
-            if(isset(self::$di -> $key)) 
-			{
-                switch(self::$di -> $key -> type) 
-				{
+		foreach ($keys as $key) {
+            if (isset(self::$di->$key)) {
+                switch (self::$di->$key->type) {
                     case 'value':
-                            $obj -> $key = self::$di -> $key -> value;
-                    break;
+						$obj->$key = self::$di->$key->value;
+						break;
 									
                     case 'class':
-                            $obj -> $key = self::get(self::$di -> $key -> value, self::$di -> $key -> arguments);
-                    break;
+                        $obj->$key = self::get(self::$di->$key->value, self::$di->$key->arguments);
+						break;
 									
                     case 'classSingleton':
-                        if(self::$di -> $key -> instance === null) 
-						{
-                            $obj -> $key = self::$di -> $key -> instance = self::get(self::$di -> $key -> value, self::$di -> $key -> arguments);
-                        } 
-						else 
-						{
-                            $obj -> $key = self::$di -> $key -> instance;
+                        if(self::$di->$key->instance === null) {
+                            $obj->$key = self::$di->$key->instance = self::get(self::$di->$key->value, self::$di->$key->arguments);
+                        } else {
+                            $obj->$key = self::$di->$key->instance;
                         }
-                    break;
+						break;
                 }
             }
         }
@@ -221,26 +194,20 @@ class Vf_Di_Container
 	*@param string $className nazwa klasa
 	*@param array $coreConfig konfiguracje z config/Core/config.php $configs['di']
 	*/
-	private static function _includeRequiredFileClass($className, $coreConfig)
+	private static function includeRequiredFileClass($className, $coreConfig)
 	{
 		$workDir = getcwd();
 		$includedFiles = get_included_files();
-		$classFile = $workDir.'/'.$coreConfig['class'][$className]['requiredFileClass'];
+		$classFile = $workDir . '/' . $coreConfig['class'][$className]['requiredFileClass'];
 		
-		if(in_array($classFile, $includedFiles))
-		{
+		if (in_array($classFile, $includedFiles)) {
 			return true;
-		}
-		else
-		{
-			if(Vf_Loader::existsFile($classFile))
-			{
+		} else {
+			if (Vf_Loader::existsFile($classFile)) {
 				require_once($classFile);
 				return true;
-			}
-			else
-			{
-				throw new Vf_Di_Container_Exception('Missing class file: '.$classFile);
+			} else {
+				throw new Vf_Di_Container_Exception('Missing class file: ' . $classFile);
 			}
 		}
 	}
@@ -252,61 +219,40 @@ class Vf_Di_Container
 	*@static
 	*@param Vf_Config $coreConfig klasa ktora wczytuje konfiguracje z config/Core/config.php
 	*/
-	private static function _setDependencyInjectionData($coreConfig)
+	private static function setDependencyInjectionData($coreConfig)
 	{
-		if(is_array($coreConfig -> di))
-		{
+		if (is_array($coreConfig->di)) {
 			//add class and values to inject automitacally
-			foreach($coreConfig -> di as $key => $di)
-			{
-				if($key == 'class')
-				{
-					if(sizeof($coreConfig -> di['class']) > 0)
-					{
-						foreach($di as $key => $class)
-						{
-							if(!isset($class['args']))
-							{
+			foreach ($coreConfig->di as $key => $di){
+				if ($key == 'class') {
+					if (sizeof($coreConfig->di['class']) > 0) {
+						foreach ($di as $key => $class) {
+							if (!isset($class['args'])) {
 								self::addClass($class['key'], $class['class']);
-							}
-							else
-							{
+							} else {
 								self::addClass($class['key'], $class['class'], $class['args']);
 							}
 						}
 					}
-				}
-				else if($key == 'classSingleton')
-				{
-					if(sizeof($coreConfig -> di['classSingleton']) > 0)
-					{
-						foreach($di as $key => $singleton)
-						{
-							if(!isset($class['args']))
-							{
+				} elseif ($key == 'classSingleton') {
+					if (sizeof($coreConfig->di['classSingleton']) > 0) {
+						foreach ($di as $key => $singleton) {
+							if (!isset($class['args'])) {
 								self::addClassAsSingleton($class['key'], $class['class']);
-							}
-							else
-							{
+							} else {
 								self::addClassAsSingleton($class['key'], $class['class'], $class['args']);
 							}
 						}
 					}
-				}
-				else if($key == 'value')
-				{
-					if(sizeof($coreConfig -> di['value']) > 0)
-					{
-						foreach($di as $value)
-						{
+				} elseif ($key == 'value') {
+					if (sizeof($coreConfig->di['value']) > 0) {
+						foreach ($di as $value) {
 							self::addValue($value['key'], $value['value']);
 						}
 					}
 				}
 			}
-		}
-		else
-		{
+		} else {
 			throw new Vf_Di_Container_Exception('Dependecies must be passed as array');
 		}
 	}
@@ -320,7 +266,7 @@ class Vf_Di_Container
 	*/
 	public static function addValue($key, $value) 
 	{
-		self::_addToDi($key, (object) array(
+		self::addToDi($key, (object) array(
 			'value' => $value,
 			'type' => 'value'
 		));
@@ -336,7 +282,7 @@ class Vf_Di_Container
 	*/
 	public static function addClass($key, $value, $arguments = null) 
 	{
-		self::_addToDi($key, (object) array(
+		self::addToDi($key, (object) array(
 			'value' => $value,
 			'type' => 'class',
 			'arguments' => $arguments
@@ -353,7 +299,7 @@ class Vf_Di_Container
 	*/
 	public static function addClassAsSingleton($key, $value, $arguments = null) 
 	{
-		self::_addToDi($key, (object) array(
+		self::addToDi($key, (object) array(
 			'value' => $value,
 			'type' => 'classSingleton',
 			'instance' => null,
@@ -368,13 +314,12 @@ class Vf_Di_Container
 	*@param string $key klucz pod ktorym mamy klase ktora potem bedzie wstrzykiwana w zaleznosci
 	*@param object $obj stdclass ktora definiuje nasze zaleznosci
 	*/
-	private static function _addToDi($key, $obj) 
+	private static function addToDi($key, $obj) 
 	{
-		if(self::$di === null) 
-		{
+		if (self::$di === null) {
 			self::$di = (object) array();
 		}
-		self::$di -> $key = $obj;
+		self::$di->$key = $obj;
 	}
 }
 

@@ -10,38 +10,36 @@
 
 class Vf_Sql_Helper
 {
+	/**
+	* Metoda wykonuje kod sql z pliku
+	* @static
+	* @access public 
+	* @param string $schema sciezka do pliku
+	* @param string $delimiter znak po ktorym konczymy zapytanie i zaczynamy nowe
+	* @return boolean
+	*/
 	public static function import($schema, $delimiter = ';')
 	{
-		if(file_exists($schema))
-		{
+		if (file_exists($schema)) {
 			$queryResultOk = false;
 			$schema = file_get_contents($schema);
 			$model = Vf_Orm::factory('adminPages'); 
 			
-			if(substr($schema, -1, 1) == $delimiter)
-			{
+			if (substr($schema, -1, 1) == $delimiter) {
 				$schema = rtrim($schema, $delimiter);
 			}
-			
 			$queries = explode($delimiter, $schema);
 
-			try
-			{
-				foreach($queries as $key => $query)
-				{
+			try {
+				foreach ($queries as $key => $query) {
 					$query = trim($query);
-					if($model -> InsertSchema($query))
-					{
+					if ($model->InsertSchema($query)) {
 						$queryResultOk = true;
-					}
-					else
-					{
+					} else {
 						$queryResultOk = false;
 					}
 				}
-			}
-			catch(Volta_Mysql_Adapter_Query_Exception $e)
-			{
+			} catch (Volta_Mysql_Adapter_Query_Exception $e) {
 				return false;
 			}
 			return $queryResultOk;

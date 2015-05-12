@@ -8,16 +8,14 @@
 *@version 1.0
 */
 
-require_once(DIR_LIBRARY.'Model.php');
+require_once(DIR_LIBRARY . 'Model.php');
 
 class Vf_Language_Model extends Vf_Model
 {
-
 	public function getLocales()
 	{
-		$locales = $this -> db -> Select('*', 'locales') -> Execute();
-		if($fetch = $this -> db -> FetchAllAssoc($locales))
-		{
+		$locales = $this->db->Select('*', 'locales')->Execute();
+		if ($fetch = $this->db->FetchAllAssoc($locales)) {
 			return $fetch;
 		}
 		return null;
@@ -27,12 +25,10 @@ class Vf_Language_Model extends Vf_Model
 	public function getLocalesAsLanguages()
 	{
 		$langs = array();
-		$locales = $this -> db -> Select('*', 'locales') -> Execute();
+		$locales = $this->db->Select('*', 'locales')->Execute();
 		
-		if($fetch = $this -> db -> FetchAllAssoc($locales))
-		{
-			foreach($fetch as $locale)
-			{
+		if ($fetch = $this->db->FetchAllAssoc($locales)) {
+			foreach($fetch as $locale) {
 				$langs[$locale['locale']] = $locale['language'];
 			}
 			return $langs;
@@ -44,19 +40,16 @@ class Vf_Language_Model extends Vf_Model
 	public function getLanguagesAsLocales()
 	{
 		$locales = array();
-		$languages = $this -> db -> Select('*', 'locales') -> Execute();
+		$languages = $this->db->Select('*', 'locales')->Execute();
 		
-		if($fetch = $this -> db -> FetchAllAssoc($languages))
-		{
-			foreach($fetch as $locale)
-			{
+		if ($fetch = $this->db->FetchAllAssoc($languages)) {
+			foreach ($fetch as $locale) {
 				$locales[$locale['language']] = $locale['locale'];
 			}
 			return $locales;
 		}
 		return null;
 	}
-
 }
 
 ?>

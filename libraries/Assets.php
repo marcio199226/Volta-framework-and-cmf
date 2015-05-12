@@ -29,35 +29,23 @@ class Vf_Assets
 			'js' => $assets_inline_js[1]
 		);
 		
-		if(sizeof($assets_external[1]) > 0)
-		{
-			foreach($assets_external[1] as $key => $type)
-			{
-				if($type == 'css')
-				{
-					$css[] = "\n<link rel=\"stylesheet\" type=\"text/css\" href=".$assets_external[2][$key]." />\n";
-				}
-				else if($type == 'js')
-				{
-					$js[] =  "\n<script type=\"text/javascript\" src=".$assets_external[2][$key]."></script>\n";
+		if (sizeof($assets_external[1]) > 0) {
+			foreach ($assets_external[1] as $key => $type) {
+				if($type == 'css') {
+					$css[] = "\n<link rel=\"stylesheet\" type=\"text/css\" href=" . $assets_external[2][$key] . " />\n";
+				} elseif($type == 'js') {
+					$js[] =  "\n<script type=\"text/javascript\" src=" . $assets_external[2][$key] . "></script>\n";
 				}
 			}
 		}
-
-		foreach($inlines as $type => $inline)
-		{
-			if($type == 'css')
-			{
-				foreach($inline as $code)
-				{
-					$css_inline[] = "\n<style type=\"text/css\">".$code."</style>\n";
+		foreach ($inlines as $type => $inline) {
+			if ($type == 'css') {
+				foreach ($inline as $code) {
+					$css_inline[] = "\n<style type=\"text/css\">" . $code . "</style>\n";
 				}
-			}
-			else if($type == 'js')
-			{
-				foreach($inline as $code)
-				{
-					$js_inline[] = "\n<script type=\"text/javascript\">".$code."</script>\n";
+			} elseif($type == 'js') {
+				foreach($inline as $code) {
+					$js_inline[] = "\n<script type=\"text/javascript\">" . $code . "</script>\n";
 				}
 			}
 		}

@@ -39,27 +39,24 @@ class Vf_Acl
 	*/
 	public function load_rules()
 	{
-		if(file_exists(DIR_DRIVERS.'Acl/' . $this -> acl_cfg.'.php'))
-			include_once(DIR_DRIVERS.'Acl/' . $this -> acl_cfg.'.php');
-		
-		else
+		if (file_exists(DIR_DRIVERS . 'Acl/' . $this->acl_cfg . '.php')) {
+			include_once(DIR_DRIVERS . 'Acl/' . $this->acl_cfg . '.php');
+		} else {
 			return false;
+		}
 			
-		$class = 'Vf_Acl_'.$this -> acl_cfg.'_Adapter';
+		$class = 'Vf_Acl_' . $this->acl_cfg . '_Adapter';
 		$acl_obj = new $class();
 		
-		if($acl_obj instanceof IAcl)
-		{
-			$acl_obj -> set_user_data($this -> user);
-			$this -> acl_perms = $acl_obj -> load();
-			$this -> acl_perms['user_role'] = $this -> acl_perms[$this -> user['role']];
-			$this -> acl_perms['all'] = $this -> acl_perms;
+		if ($acl_obj instanceof IAcl) {
+			$acl_obj->set_user_data($this->user);
+			$this->acl_perms = $acl_obj->load();
+			$this->acl_perms['user_role'] = $this->acl_perms[$this->user['role']];
+			$this->acl_perms['all'] = $this->acl_perms;
 			return true;
-		}
-		
-		else
+		} else {
 			throw new Volta_Acl_Exception("Loader ustawien acl musi posiadac interfejs IAcl");
-		
+		}
 	}
 	
 	
@@ -71,8 +68,8 @@ class Vf_Acl
 	*/
 	public function set_user_role($role, $id = null)
 	{
-		$this -> user['role'] = $role;
-		$this -> user['id'] = $id;
+		$this->user['role'] = $role;
+		$this->user['id'] = $id;
 	}
 	
 	
@@ -83,13 +80,12 @@ class Vf_Acl
 	*/
 	public function add_resource($resource)
 	{
-		if(!is_array($resource))
-			$this -> acl_perms['user_role'][$resource] = array();
-			
-		else
-		{
-			foreach($resource as $res)
-				$this -> acl_perms['user_role'][$res] = array();
+		if (!is_array($resource)) {
+			$this->acl_perms['user_role'][$resource] = array();
+		} else {
+			foreach ($resource as $res) {
+				$this->acl_perms['user_role'][$res] = array();
+			}
 		}
 	}
 	
@@ -103,7 +99,7 @@ class Vf_Acl
 	*/
 	public function add_role($resource, $role)
 	{
-		$this -> acl_perms['user_role'][$resource][] = $role;
+		$this->acl_perms['user_role'][$resource][] = $role;
 	}
 	
 	
@@ -116,13 +112,10 @@ class Vf_Acl
 	*/
 	public function remove_role($resource, $role)
 	{
-		if(in_array($role, $this -> acl_perms['user_role'][$resource]))
-		{
-			foreach($this -> acl_perms['user_role'][$resource] as $key => $rl)
-			{
-				if($rl == $role)
-				{
-					unset($this -> acl_perms['user_role'][$resource][$key]);
+		if (in_array($role, $this->acl_perms['user_role'][$resource])) {
+			foreach ($this->acl_perms['user_role'][$resource] as $key => $rl) {
+				if($rl == $role) {
+					unset($this->acl_perms['user_role'][$resource][$key]);
 					return true;
 				}
 			}
@@ -140,12 +133,10 @@ class Vf_Acl
 	*/
 	public function remove_resource($resource)
 	{
-		if(isset($this -> acl_perms['user_role'][$resource]))
-		{
-			unset($this -> acl_perms['user_role'][$resource]);
+		if (isset($this->acl_perms['user_role'][$resource])) {
+			unset($this->acl_perms['user_role'][$resource]);
 			return true;
 		}
-			
 		return false;
 	}
 	
@@ -158,12 +149,10 @@ class Vf_Acl
 	*/
 	public function remove_group($group)
 	{
-		if(isset($this -> acl_perms['all'][$group]))
-		{
-			unset($this -> acl_perms['all'][$group]);
+		if (isset($this->acl_perms['all'][$group])) {
+			unset($this->acl_perms['all'][$group]);
 			return true;
-		}
-			
+		}	
 		return false;
 	}
 	
@@ -176,8 +165,7 @@ class Vf_Acl
 	*/
 	public function has_group($group)
 	{
-		if($group == $this -> user['role'])
-		{
+		if ($group == $this->user['role']) {
 			return true;
 		}	
 		return false;
@@ -192,8 +180,7 @@ class Vf_Acl
 	*/
 	public function has_resource($resource)
 	{
-		if(array_key_exists($resource, $this -> acl_perms['user_role']))
-		{
+		if (array_key_exists($resource, $this->acl_perms['user_role'])) {
 			return true;
 		}	
 		return false;
@@ -208,8 +195,7 @@ class Vf_Acl
 	*/
 	public function has_role($resource, $role)
 	{
-		if(in_array($role, $this -> acl_perms['user_role'][$resource]))
-		{
+		if (in_array($role, $this->acl_perms['user_role'][$resource])) {
 			return true;
 		}	
 		return false;
@@ -223,17 +209,17 @@ class Vf_Acl
 	*/
 	public function extend($child)
 	{
-		if(!is_array($child))
-		{
-			if(array_key_exists($child, $this -> acl_perms['all']))
-				$this -> acl_perms['user_role'] = array_merge($this -> acl_perms['user_role'], $this -> acl_perms['all'][$child]);
+		if (!is_array($child)) {
+			if (array_key_exists($child, $this->acl_perms['all'])) {
+				$this->acl_perms['user_role'] = array_merge($this->acl_perms['user_role'], $this->acl_perms['all'][$child]);
+			}
+		} else {
+			foreach ($child as $group) {
+				if (array_key_exists($group, $this->acl_perms['all'])) {
+					$this->acl_perms['user_role'] = array_merge($this->acl_perms['user_role'], $this->acl_perms['all'][$group]);
+				}
+			}
 		}
-		
-		else
-			foreach($child as $group)
-			if(array_key_exists($group, $this -> acl_perms['all']))
-				$this -> acl_perms['user_role'] = array_merge($this -> acl_perms['user_role'], $this -> acl_perms['all'][$group]);
-		
 	}
 	
 	/**
@@ -245,20 +231,16 @@ class Vf_Acl
 	*/
 	public function is_allowed($resource, $role)
 	{
-	
-		if(!array_key_exists($resource, $this -> acl_perms['user_role']))
+		if (!array_key_exists($resource, $this->acl_perms['user_role'])) {
 			throw new Volta_Acl_Deny_Exception("Brak uprawnien");
-			
-		else if(in_array('*', $this -> acl_perms['user_role'][$resource]))
+		} elseif (in_array('*', $this->acl_perms['user_role'][$resource])) {
 			return true;
-			
-		else if(in_array($role, $this -> acl_perms['user_role'][$resource]))
+		} elseif (in_array($role, $this->acl_perms['user_role'][$resource])) {
 			return true;
-			
-		else
+		} else {
 			throw new Volta_Acl_Deny_Exception("Nie posiadasz wystarczajacyh uprawnien");
+		}
 	}
-
 }
 
 ?>

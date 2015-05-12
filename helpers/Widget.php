@@ -11,20 +11,22 @@
 
 class Vf_Widget_Helper
 {
+	/**
+	* Helper ktory pozwala nam wyswietlic dozwolony widget
+	* @static
+	* @access public 
+	* @param string $widget nazwa widget-u
+	* @return mixed
+	*/
 	public static function load($widget)
 	{
-		if(Vf_Loader::existsFile(DIR_WIDGETS_CTRL.$widget.'.php'))
-		{
-			require_once(DIR_WIDGETS_CTRL.$widget.'.php');
-			
+		if (Vf_Loader::existsFile(DIR_WIDGETS_CTRL . $widget . '.php')) {
+			require_once(DIR_WIDGETS_CTRL . $widget . '.php');
 			$classWidget = 'Vf_'.$widget.'_Widget';
 			
-			if(class_exists($classWidget))
-			{
+			if (class_exists($classWidget)) {
 				$object = new $classWidget();
-				
-				if($object instanceof IWidget)
-				{
+				if ($object instanceof IWidget) {
 					return $object -> display();
 				}
 				return false;

@@ -8,7 +8,7 @@
 *@version 1.0
 */
 
-require_once(DIR_LIBRARY.'Orm.php');
+require_once(DIR_LIBRARY . 'Orm.php');
 
 class Vf_Ban_Model extends Vf_Orm
 {
@@ -22,33 +22,24 @@ class Vf_Ban_Model extends Vf_Orm
 	public function isBanned($user)
 	{
 		$banned = false;
-		$query = $this -> db -> Select('ban_expire', $this -> table)
-							 -> Where(array('ban_user' => $user))
-							 -> Limit(1)
-							 -> Execute();
+		$query = $this->db->Select('ban_expire', $this->table)
+			->Where(array('ban_user' => $user))
+			->Limit(1)
+			->Execute();
 							 
-		if($this -> db -> CountRows($query) == 1)
-		{
-			$bannedData = $this -> db -> FetchAssoc($query);
+		if ($this->db->CountRows($query) == 1) {
+			$bannedData = $this->db->FetchAssoc($query);
 
-			if($bannedData['ban_expire'] == NULL || $bannedData['ban_expire'] == 0)
-			{
+			if($bannedData['ban_expire'] == NULL || $bannedData['ban_expire'] == 0) {
 				$banned = true;
-			}
-			else if($bannedData['ban_expire'] != null && (time() > time() - $bannedData['ban_expire']))
-			{
-				if($this -> db -> Delete($this -> table, array('ban_user' => $user)))
-				{
+			} elseif ($bannedData['ban_expire'] != null && (time() > time() - $bannedData['ban_expire'])) {
+				if($this->db->Delete($this->table, array('ban_user' => $user))) {
 					$banned = false;
 				}
-			}
-			else
-			{
+			} else {
 				$banned = true;
 			}
-		}
-		else
-		{
+		} else {
 			$banned = false;
 		}
 		return $banned;

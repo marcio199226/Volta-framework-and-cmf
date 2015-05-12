@@ -1,8 +1,16 @@
 Options All -Indexes
 
 <Files .htaccess>
-order allow,deny
-deny from all
+	order allow,deny
+	deny from all
 </Files>
+
+<Limit GET POST PUT DELETE>
+	Allow from all
+</Limit>
+
+RewriteEngine on
+RewriteRule .* - [E=HTTP_IF_MODIFIED_SINCE:%{HTTP:If-Modified-Since}]
+RewriteRule .* - [E=HTTP_IF_NONE_MATCH:%{HTTP:If-None-Match}]
 
 RewriteRule ^(config/) - [F,L,NC]

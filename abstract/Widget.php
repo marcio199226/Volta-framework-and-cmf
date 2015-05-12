@@ -10,11 +10,20 @@
 
 abstract class Vf_Widget_Abstract
 {
+	/**
+	* Skladowa kontenera
+	* @access protected
+	* @var object $container Vf_Di_Container
+	*/
 	protected $container = null;
 	
+	/**
+	* Tworzymy kontener dla widget-ow
+	* @access public
+	*/
 	public function setCoreContainer()
 	{
-		$this -> container = Vf_Core::getContainer();
+		$this->container = Vf_Core::getContainer();
 	}
 }
 

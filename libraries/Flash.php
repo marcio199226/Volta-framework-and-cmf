@@ -19,9 +19,9 @@ class Vf_Flash
 	const ERROR = 'error';
 
 	/**
-	*Skladowa klasy ktora przechowywuje wszystkie wiadomosci
-	*@access private
-	*@var array $messages
+	* Skladowa klasy ktora przechowywuje wszystkie wiadomosci
+	* @access private
+	* @var array $messages
 	*/
 	private $messages = array(
 		'now' => array(),
@@ -31,16 +31,16 @@ class Vf_Flash
 	
 	
 	/**
-	*Skladowa klasy ktora uwzglednia z ktorego requestu zwrocic dane now/next = current Request prev = previous Request
-	*@access private
-	*@var string $from
+	* Skladowa klasy ktora uwzglednia z ktorego requestu zwrocic dane now/next = current Request prev = previous Request
+	* @access private
+	* @var string $from
 	*/
 	private $from = 'now';
 	
 	
 	/**
-	*Konstruktor ktory laduje helper Box do obrobki informacni
-	*@access public 
+	* Konstruktor ktory laduje helper Box do obrobki informacni
+	* @access public 
 	*/
 	public function __construct()
 	{
@@ -49,38 +49,38 @@ class Vf_Flash
 	
 	
 	/**
-	*Magiczny getter zwraca nam informacje pod danym kluczem, uzywac jesli klucz posiada tylko jedna wartosc w przeciwnym razie $this -> getMessages()
-	*@access public 
-	*@param string $key klucz gdzie zapisalismy wczesniej nasza wiadomosc
-	*@return string|null
+	* Magiczny getter zwraca nam informacje pod danym kluczem, uzywac jesli klucz posiada tylko jedna wartosc w przeciwnym razie $this->getMessages()
+	* @access public 
+	* @param string $key klucz gdzie zapisalismy wczesniej nasza wiadomosc
+	* @return string|null
 	*/
 	public function __get($key)
 	{
-		return (isset($this -> messages[$this -> from][$key])) ? html_entity_decode($this -> messages[$this -> from][$key]) : null;
+		return (isset($this->messages[$this->from][$key])) ? html_entity_decode($this->messages[$this->from][$key]) : null;
 	}
 	
 	
 	/**
-	*Ustawiamy gdzie ma czytac dane
-	*@access public 
-	*@param string $from now/prev/next
-	*@return string $this
+	* Ustawiamy gdzie ma czytac dane
+	* @access public 
+	* @param string $from now/prev/next
+	* @return string $this
 	*/
 	public function from($from)
 	{
-		$this -> from = $from;
+		$this->from = $from;
 		return $this;
 	}
 	
 	
 	/**
-	*Zwraca wszystkie wiadomosci przefiltrowane
-	*@access public 
-	*@return array
+	* Zwraca wszystkie wiadomosci przefiltrowane
+	* @access public 
+	* @return array
 	*/
 	public function getMessages()
 	{	
-		$messages = array_merge($this -> messages['now'], $this -> messages['prev']);
+		$messages = array_merge($this->messages['now'], $this->messages['prev']);
 		$filtered = array_map(function($arr) {
 			foreach($arr as $k => $v)
 				$html[$k] = html_entity_decode($v);
@@ -91,99 +91,90 @@ class Vf_Flash
 	
 
 	/**
-	*Dodajemy nowa wiadomosc dla nastepnego zadania
-	*@access public 
-	*@param string $key klucz tablicy
-	*@param string $value wartosc danego klucza
-	*@param string $type patrz const klasy
+	* Dodajemy nowa wiadomosc dla nastepnego zadania
+	* @access public 
+	* @param string $key klucz tablicy
+	* @param string $value wartosc danego klucza
+	* @param string $type patrz const klasy
 	*/
 	public function add($key, $value, $type = self::SUCCESS)
 	{
-		if(!is_array($value))
-		{
-			$this -> messages['next'][$key] = htmlentities(call_user_func_array(array('Vf_Box_Helper', $type), array($value)));
-		}
-		else
-		{
-			foreach($value as $msg)
-			{
-				$this -> messages['next'][$key][] = htmlentities(call_user_func_array(array('Vf_Box_Helper', $type), array($msg)));
+		if (!is_array($value)) {
+			$this->messages['next'][$key] = htmlentities(call_user_func_array(array('Vf_Box_Helper', $type), array($value)));
+		} else {
+			foreach ($value as $msg) {
+				$this->messages['next'][$key][] = htmlentities(call_user_func_array(array('Vf_Box_Helper', $type), array($msg)));
 			}
 		}
 	}
 	
 	
 	/**
-	*Dodajemy nowa wiadomosc dla aktualnego zadania
-	*@access public 
-	*@param string $key klucz tablicy
-	*@param string $value wartosc danego klucza
-	*@param string $type patrz const klasy
+	* Dodajemy nowa wiadomosc dla aktualnego zadania
+	* @access public 
+	* @param string $key klucz tablicy
+	* @param string $value wartosc danego klucza
+	* @param string $type patrz const klasy
 	*/
 	public function now($key, $value, $type = self::SUCCESS)
 	{
-		if(!is_array($value))
-		{
-			$this -> messages['now'][$key] = htmlentities(call_user_func_array(array('Vf_Box_Helper', $type), array($value)));
-		}
-		else
-		{
-			foreach($value as $msg)
-			{
-				$this -> messages['now'][$key][] = htmlentities(call_user_func_array(array('Vf_Box_Helper', $type), array($msg)));
+		if (!is_array($value)) {
+			$this->messages['now'][$key] = htmlentities(call_user_func_array(array('Vf_Box_Helper', $type), array($value)));
+		} else {
+			foreach ($value as $msg) {
+				$this->messages['now'][$key][] = htmlentities(call_user_func_array(array('Vf_Box_Helper', $type), array($msg)));
 			}
 		}
 	}
 	
 	
 	/**
-	*Zachowaj wiadomości bezpośrednie z poprzedniego zadania dla nastepnego
-	*@access public 
+	* Zachowaj wiadomości bezpośrednie z poprzedniego zadania dla nastepnego
+	* @access public 
 	*/
 	public function keep()
 	{
-		if(sizeof($this -> messages['prev']) > 0)
-		{
-			foreach($this -> messages['prev'] as $key => $value)
-			{
-				$this -> messages['next'][$key] = $value;
+		if (sizeof($this->messages['prev']) > 0) {
+			foreach ($this->messages['prev'] as $key => $value) {
+				$this->messages['next'][$key] = $value;
 			}
 		}
 	}
 	
 
 	/**
-	*Sprawdza czy dana wiadomosc istnieje
-	*@access public 
-	*@param string $key klucz ktorego szukamy
-	*@return bool
+	* Sprawdza czy dana wiadomosc istnieje
+	* @access public 
+	* @param string $key klucz ktorego szukamy
+	* @return bool
 	*/
 	public function hasFlash($key)
 	{
-		return (isset($_SESSION['flashMessages'][$key])) ? true : false;
+		$flashMessages = Vf_Core::getContainer()->request->session('flashMessages', false);
+		return (isset($flashMessages[$key])) ? true : false;
 	}
 	
 
 	/**
-	*Laduje wiadomosc z poprzedniego zadania jesli istnieja do nastepnego uzyte w: events/FlashMessages.php i zarejestrowane w Core/config.php
-	*@access public 
+	* Laduje wiadomosc z poprzedniego zadania jesli istnieja do nastepnego uzyte w: events/FlashMessages.php i zarejestrowane w Core/config.php
+	* @access public 
 	*/
     public function loadFromPreviousRequest()
     {
-        if (isset($_SESSION['flashMessages'])) 
-		{
-            $this -> messages['prev'] = $_SESSION['flashMessages'];
+		$flashMessages = Vf_Core::getContainer()->request->session('flashMessages', false);
+        if (isset($flashMessages)) {
+            $this->messages['prev'] = $flashMessages;
         }
     }
 	
 	
 	/**
-	*Zapisuje wszystkie wiadomosci do sesji by byly dostepne globalnie
-	*@access public 
+	* Zapisuje wszystkie wiadomosci do sesji by byly dostepne globalnie
+	* @access public 
 	*/
 	public function save()
 	{
-		$_SESSION['flashMessages'] = $this -> messages['next'];
+		Vf_Core::getContainer()->request->response->setSession('flashMessages', $this->messages['next'], true);
 	}
 
 }

@@ -10,14 +10,12 @@
 
 class Vf_Auth
 {
-
 	/**
 	*Skladowa klasy ktora przechowywuje sterownik autoryzacji
 	*@access private
 	*@var object|null $auth
 	*/
 	private $auth = null;
-	
 	
 	/**
 	*Konstruktor ktory ustawia nam obiekt uzytkownika i nazwe sterownika do uzycia
@@ -27,11 +25,11 @@ class Vf_Auth
 	*/
 	public function __construct(Vf_User $user, $driver = 'Authorization')
 	{
-		if(file_exists(DIR_DRIVERS.'Auth/'.$driver.'.php'))
+		if (file_exists(DIR_DRIVERS.'Auth/'.$driver.'.php')) {
 			require_once(DIR_DRIVERS.'Auth/'.$driver.'.php');
-		
-		$driverName = 'Vf_Auth_'.$driver.'_Driver';
-		$this -> auth = new $driverName($user);
+		}
+		$driverName = 'Vf_Auth_' . $driver . '_Driver';
+		$this->auth = new $driverName($user);
 	}
 	
 	
@@ -42,7 +40,7 @@ class Vf_Auth
 	*/
 	public function login()
 	{
-		return $this -> auth -> login();
+		return $this->auth->login();
 	}
 	
 
@@ -52,7 +50,7 @@ class Vf_Auth
 	*/
 	public function logout()
 	{
-		$this -> auth -> logout();
+		$this->auth->logout();
 	}
 	
 
@@ -63,7 +61,7 @@ class Vf_Auth
 	*/
 	public function is_logged()
 	{
-		return $this -> auth -> is_logged();
+		return $this->auth->is_logged();
 	}
 	
 	
@@ -74,7 +72,7 @@ class Vf_Auth
 	*/
 	public function getAdapter()
 	{
-		return $this -> auth;
+		return $this->auth;
 	}
 }
 

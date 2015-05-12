@@ -27,74 +27,71 @@ abstract class Vf_Notify_Abstract implements INotify
 	
 	public function setRecipients($recipients)
 	{
-		if(!is_array($recipients))
-		{
-			$this -> recipients = array($recipients);
-		}
-		else
-		{
-			$this -> recipients = $recipients;
+		if (!is_array($recipients)) {
+			$this->recipients = array($recipients);
+		} else {
+			$this->recipients = $recipients;
 		}
 	}
 	
 	
 	public function addRecipient($recipient)
 	{
-		$this -> recipients[] = $recipient;
+		$this->recipients[] = $recipient;
 	}
 	
 	
 	public function setSender($sender)
 	{
-		$this -> sender = $sender;
+		$this->sender = $sender;
 	}
 	
 	
 	public function setSubject($subject)
 	{
-		$this -> subject = $subject;
+		$this->subject = $subject;
 	}
 	
 	
 	public function setUrl($url)
 	{
-		$this -> url = $url;
+		$this->url = $url;
 	}
 	
 	
 	public function setMessage($msg)
 	{
-		$this -> msg = $msg;
+		$this->msg = $msg;
 	}
 	
 	
 	public function getRecipients()
 	{
-		return $this -> recipients;
+		return $this->recipients;
 	}
 	
 	
 	public function getSender()
 	{
-		return $this -> sender;
+		return $this->sender;
 	}
 	
 	
 	public function getSubject()
 	{
-		return $this -> subject;
+		return $this->subject;
 	}
 	
 	
 	public function getUrl()
 	{
-		return $this -> url;
+		return $this->url;
 	}
 	
 	
 	public function getMessage()
 	{
-		return $this -> msg;
+		return $this->msg;
 	}
 	
 	
@@ -108,15 +105,12 @@ abstract class Vf_Notify_Abstract implements INotify
 	{
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
 		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-		$headers .= 'From: '.$this -> getSender() . "\r\n";
+		$headers .= 'From: ' . $this->getSender() . "\r\n";
 		
-		if(sizeof($this -> getRecipients()) > 0)
-		{
-			foreach($this -> getRecipients() as $key => $email)
-			{
-				if($this -> isEmail($email))
-				{
-					mail($email, $this -> getSubject(), $this -> getMessage(), $headers);
+		if (sizeof($this->getRecipients()) > 0) {
+			foreach ($this->getRecipients() as $key => $email) {
+				if($this->isEmail($email)) {
+					mail($email, $this->getSubject(), $this->getMessage(), $headers);
 				}
 			}
 		}
