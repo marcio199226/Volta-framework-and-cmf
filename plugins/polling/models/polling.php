@@ -14,10 +14,19 @@ class Vf_polling_Model extends Vf_Orm
 {
 	public function getPollAnswers($page, $module, $component, $ref_id)
 	{
+		$language = Vf_Core::getContainer()->language->get()->getLang();
 		$data = $this->db
 			->Select('poll_answers.*, poll_questions.title, poll_questions.date_add, poll_questions.date_start, poll_questions.date_expire, (select sum(votes) from poll_answers where poll_answers.poll_id=poll_questions.id) as sum', 'poll_questions')
 			->Join('poll_answers', array('poll_answers.poll_id' => 'poll_questions.id'))
-			->Where(array('page' => $page, 'module' => $module, 'component' => $component, 'ref_id' => $ref_id))
+			->Where(array(
+				'page' => $page,
+				'module' => $module,
+				'component' => $component,
+				'ref_id' => (int)$ref_id,
+				'poll_questions.lang' => $language
+				)
+			
+			)
 			->Execute();
 							
 		return $this->db->FetchAllAssoc($data);
@@ -37,7 +46,8 @@ class Vf_polling_Model extends Vf_Orm
 	
 	public function addPollAnswerVote($answer_id)
 	{
-		return $this->db->SetQuery('UPDATE poll_answers SET votes=votes+1 WHERE id_answer=' . (int)$answer_id);
+		$language = Vf_Core::getContainer()->language->get()->getLang();
+		return $this->db->SetQuery('UPDATE poll_answers SET votes=votes+1 WHERE id_answer= ' . (int)$answer_id . ' AND lang ="' . $language . '"');
 	}
 	
 	
@@ -49,7 +59,8 @@ class Vf_polling_Model extends Vf_Orm
 	
 	public function deletePoll($id)
 	{
-		if ($this->db->Delete('poll_questions', array('id' => $id)) && $this->db->Delete('poll_answers', array('poll_id' => $id))) {
+		$language = Vf_Core::getContainer()->language->get()->getLang();
+		if ($this->db->Delete('poll_questions', array('id' => $id, 'lang' => $language)) && $this->db->Delete('poll_answers', array('poll_id' => $id, 'lang' => $language))) {
 			return true;
 		}
 		return false;
@@ -58,14 +69,16 @@ class Vf_polling_Model extends Vf_Orm
 	
 	public function deleteAnswer($id)
 	{
-		return $this->db->Delete('poll_answers', array('id_answer' => $id));
+		$language = Vf_Core::getContainer()->language->get()->getLang();
+		return $this->db->Delete('poll_answers', array('id_answer' => $id, 'lang' => $language));
 	}
 	
 	
 	public function hasPoll($page, $module, $component, $ref_id)
 	{
+		$language = Vf_Core::getContainer()->language->get()->getLang();
 		$poll = $this->db->Select('id', 'poll_questions')
-			-> Where(array('page' => $page, 'module' => $module, 'component' => $component, 'ref_id' => $ref_id))
+			-> Where(array('page' => $page, 'module' => $module, 'component' => $component, 'ref_id' => $ref_id, 'lang' => $language))
 			-> Limit(1)
 			-> Execute();
 							

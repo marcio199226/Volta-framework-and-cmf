@@ -8,11 +8,13 @@ CREATE TABLE IF NOT EXISTS `poll_questions` (
  `date_add` varchar(15) NOT NULL,
  `date_start` int(10) NOT NULL,
  `date_expire` int(10) NOT NULL,
+ `lang` varchar(3) NOT NULL,
  PRIMARY KEY (`id`),
  KEY `page` (`page`),
  KEY `module` (`module`),
  KEY `component` (`component`),
- KEY `ref_id` (`ref_id`)
+ KEY `ref_id` (`ref_id`),
+ KEY `lang` (`lang`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
 
 
@@ -21,8 +23,10 @@ CREATE TABLE IF NOT EXISTS`poll_answers` (
  `poll_id` int(5) NOT NULL,
  `answer` varchar(200) NOT NULL,
  `votes` int(5) NOT NULL,
+ `lang` varchar(3) NOT NULL,
  PRIMARY KEY (`id_answer`),
  KEY `poll_id` (`poll_id`),
+ KEY `lang` (`lang`),
  CONSTRAINT `poll_answers_ibfk_1`
  FOREIGN KEY (`poll_id`)
  REFERENCES `poll_questions` (`id`)

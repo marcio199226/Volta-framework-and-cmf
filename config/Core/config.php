@@ -66,6 +66,10 @@ $configs['container'] = array(
 			'class' => 'Vf_Acl'
 		),
 		array(
+			'propertyName' => 'language',
+			'class' => 'Vf_Language'
+		),
+		array(
 			'propertyName' => 'aclCore',
 			'closure' => function($container) {
 				$request = $container -> request;

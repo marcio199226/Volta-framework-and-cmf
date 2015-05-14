@@ -44,7 +44,8 @@ class Vf_polling_Plugin extends Vf_Plugin
 						'title' => $this->container->request->post('ptitle_poll'),
 						'date_add' => date('d/m/Y'),
 						'date_start' => time(),
-						'date_expire' => $this->container->request->post('expire')
+						'date_expire' => $this->container->request->post('expire'),
+						'lang' => Vf_Core::getContainer()->language->get()->getLang()
 					);
 							
 					$stripNewLinesAnswers = str_replace(array("\n", "\r\n", "\r"), "", $this->clearEndDots($this->container->request->post('panswers_poll')));
@@ -56,7 +57,8 @@ class Vf_polling_Plugin extends Vf_Plugin
 								$poll_answer[] = array(
 									'id_answer' => null,
 									'poll_id' => $pollingModel->getPollId(),
-									'answer' => $answer	
+									'answer' => $answer,
+									'lang' => Vf_Core::getContainer()->language->get()->getLang()
 								);
 							}
 										
