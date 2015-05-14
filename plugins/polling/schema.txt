@@ -8,13 +8,24 @@ CREATE TABLE IF NOT EXISTS `poll_questions` (
  `date_add` varchar(15) NOT NULL,
  `date_start` int(10) NOT NULL,
  `date_expire` int(10) NOT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=latin1
+ PRIMARY KEY (`id`),
+ KEY `page` (`page`),
+ KEY `module` (`module`),
+ KEY `component` (`component`),
+ KEY `ref_id` (`ref_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
 
-CREATE TABLE IF NOT EXISTS `poll_answers` (
+
+CREATE TABLE IF NOT EXISTS`poll_answers` (
  `id_answer` int(5) NOT NULL AUTO_INCREMENT,
  `poll_id` int(5) NOT NULL,
  `answer` varchar(200) NOT NULL,
  `votes` int(5) NOT NULL,
- PRIMARY KEY (`id_answer`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ PRIMARY KEY (`id_answer`),
+ KEY `poll_id` (`poll_id`),
+ CONSTRAINT `poll_answers_ibfk_1`
+ FOREIGN KEY (`poll_id`)
+ REFERENCES `poll_questions` (`id`)
+ ON DELETE CASCADE
+ ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1

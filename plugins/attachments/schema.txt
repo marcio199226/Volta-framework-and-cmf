@@ -5,5 +5,9 @@ CREATE TABLE IF NOT EXISTS `attachments` (
  `component` varchar(15) NOT NULL,
  `ref_id` int(5) NOT NULL,
  `filename` varchar(150) NOT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1
+ PRIMARY KEY (`id`),
+ KEY `page` (`page`),
+ KEY `module` (`module`),
+ KEY `component` (`component`),
+ KEY `ref_id` (`ref_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1

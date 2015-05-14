@@ -3,14 +3,19 @@ CREATE TABLE IF NOT EXISTS `news` (
  `autor` varchar(10) NOT NULL,
  `data` varchar(30) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=670 DEFAULT CHARSET=latin1
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
 
-CREATE TABLE IF NOT EXISTS `news_translations` (
+CREATE TABLE `news_translations` (
  `id` int(5) NOT NULL AUTO_INCREMENT,
  `id_news` int(5) NOT NULL,
  `title` varchar(50) NOT NULL,
  `content` text NOT NULL,
  `language` varchar(3) NOT NULL,
  PRIMARY KEY (`id`),
- KEY `id_news` (`id_news`,`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin2
+ KEY `id_news` (`id_news`,`language`),
+ CONSTRAINT `news_translations_ibfk_1`
+ FOREIGN KEY (`id_news`)
+ REFERENCES `news` (`id`)
+ ON DELETE NO ACTION
+ ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
