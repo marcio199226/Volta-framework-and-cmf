@@ -50,7 +50,7 @@ class Vf_register_Component extends Vf_Controller
 				$validation->add_rule('password', new str(array('field' => 'haslo', 'required' => true, 'compare_pwd' => 're_password', 'alphadigit' => true)));
 				$validation->add_rule('re_password', new str(array('field' => 'powtorz haslo', 'required' => true, 'alphadigit' => true)));
 				$validation->add_rule('email', new str(array('field' => 'email', 'required' => true, 'email' => true)));
-				//$validation->add_rule('email', new email(array('check_email' => 'email')));
+				$validation->add_rule('email', new email(array('check_email' => 'email')));
 				$validation->validation();
 				
 				if (sizeof($validation->get_errors()) == 0) {
