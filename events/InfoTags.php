@@ -1,7 +1,7 @@
 <?php 
 
 /**
-*Volta framework
+* Volta framework
 
 * @author marcio <opi14@op.pl>, <polishvodka7@gmail.com>
 * @copyright Copyright (c) 2012, marcio
@@ -18,8 +18,8 @@ class Vf_InfoTags_Events
 	public function replace($output)
 	{
 		$benchmark = Vf_Benchmark::get('core');
-		$csrf = new Vf_Security();
-		$token = $csrf->csrf_token_generate();
+		$csrf = Vf_Core::getContainer()->csrf;
+		$token = $csrf->getToken();
 		$output = str_replace(
 			array('{@time@}', '{@sql@}', '{@memory@}', '{@csrf_token@}'), 
 			array($benchmark['time'], $benchmark['sql'], $benchmark['memory'], $token),

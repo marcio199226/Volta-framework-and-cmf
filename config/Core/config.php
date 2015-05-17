@@ -23,6 +23,9 @@ $configs['events'] = array(
 		array(new Vf_InfoTags_Events(), 'replace'),
 		array(new Vf_Assets(), 'replaceAssets'),
 		array('Vf_CompressApp_Events', 'compress')//if is class name is string so inject container into class contructor
+	),
+	'system.shutdown' => array(
+		array(new Vf_Csrf_Events(), 'generateToken')
 	)
 );
 
@@ -43,6 +46,10 @@ $configs['container'] = array(
 		)
 	),
 	'shared' => array(
+		array(
+			'propertyName' => 'csrf',
+			'class' => 'Vf_Security'
+		),
 		array(
 			'propertyName' => 'request',
 			'class' => 'Vf_Request'
@@ -67,7 +74,9 @@ $configs['container'] = array(
 		),
 		array(
 			'propertyName' => 'language',
-			'class' => 'Vf_Language'
+			'closure' => function($container) {
+				return Vf_Language::instance();
+			}
 		),
 		array(
 			'propertyName' => 'aclCore',

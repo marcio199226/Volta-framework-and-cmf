@@ -1,0 +1,13 @@
+#formPollingPluginButton {
+	border: none;
+	background: #333;
+	color: #ffffff;
+	font-weight: bold;
+	padding: 5px 10px;
+	font-size: 12px;
+	font-family: Tahoma, Geneva, sans-serif;
+	letter-spacing: 1px;
+	width: 100px;
+	height: 30px;
+	overflow: visible;
+}

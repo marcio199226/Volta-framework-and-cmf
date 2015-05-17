@@ -324,7 +324,7 @@ class Vf_Response
 	 * @param bool $secure Opcjonalny parametr oznaczajacy, czy ciastko bedzie ustawione na https://
 	 * @param bool $httponly Opcjonalny parametr httponly zabezpieczajacy przed odczytaniem cookie przez js
 	 */
-	public function setCookie($name, $value, $expired = 0, $path = '', $host = '', $secure = 0, $httponly = true)
+	public function setCookie($name, $value, $expired = 0, $path = '/', $host = '', $secure = false, $httponly = true)
 	{
 		$expired = ($expired > 0) ? time() + $expired : 0;
 		return setcookie($name, $value, $expired, $path, $host, $secure, $httponly);

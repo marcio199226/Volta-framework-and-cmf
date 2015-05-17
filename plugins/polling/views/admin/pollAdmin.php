@@ -12,14 +12,18 @@
 		<td>
 			<table align="center">
 				<tr align="left">
-					<td width="200px"><span style="font-size:12px;color:#000000;">Lacznych glosow: <?php print $infoPoll['sum']; ?></span></td>
+					<td width="200px">
+						<span style="font-size:12px;color:#000000;">
+							<?php print __('pollOverallVotes'); ?> <?php print $infoPoll['sum']; ?>
+						</span>
+					</td>
 				</tr>
 				<?php foreach($poll as $p): 
 					$percent = ($p['sum'] == 0) ? 0: round($p['votes'] * 100 / $p['sum']);
 					if($voteMode == 'single')
 						$vote = '<input type="radio" name="pvote" value="'.$p['id_answer'].'">';
 					else
-						$vote = '<input type="checkbox" name="pvote[]" value="'.$p['id_answer'].'">';
+						$vote = '<input type="checkbox" style="visibility: visible;" name="pvote[]" value="'.$p['id_answer'].'">';
 				?>
 				<tr>
 					<?php if(!$hasVoted && !$hasExpired): ?>
@@ -47,7 +51,7 @@
 				<?php if(!$hasVoted && !$hasExpired): ?>
 				<tr>
 					<td>
-						<input type="submit" name="submit_padd_vote" value="Glosuj!" style="height:30px;width:100px;padding:2px;background-color:#FFF8DC;border:1px solid #A9A9A9;">
+						<input type="submit" name="submit_padd_vote" value="<?php print __('pollVoteButton'); ?>" style="height:30px;width:100px;padding:2px;background-color:#FFF8DC;border:1px solid #A9A9A9;">
 					</td>
 				</tr>
 				<?php endif; ?>
@@ -57,17 +61,17 @@
 	<tr>
 		<td align="left">
 			<input src="../plugins/polling/assets/images/del_poll.jpg" type="image" name="submit_pdel_poll" value="<?php print $infoPoll['poll_id']; ?>">
-			<span style="font-size:12px;color:#000000;">Usun ankiete</span>
+			<span style="font-size:12px;color:#000000;"><?php print __('pollDelete'); ?></span>
 		</td>
 	</tr>
 	</form>
 	<tr>
 		<td align="center">
 			<?php if($hasExpired): ?>
-			<span style="font-size:12px;color:#000000;">Ankieta wygasla</span><Br />
+			<span style="font-size:12px;color:#000000;"><?php print __('pollExpired'); ?></span><Br />
 				<?php endif; ?>
 			<?php if($hasVoted): ?>
-				<span style="font-size:12px;color:#000000;">Juz glosowales w tej ankiecie</span><Br />
+				<span style="font-size:12px;color:#000000;"><?php print __('pollAlreadyVoted'); ?></span><Br />
 			<?php endif; ?>
 			<?php if(isset($success)): ?>
 				<?php print Vf_Box_Helper::success($success); ?>

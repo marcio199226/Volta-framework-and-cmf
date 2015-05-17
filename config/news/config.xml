@@ -30,7 +30,7 @@
 								<vote>single</vote>
 							</settings>
 							<actions>
-								<action>create_poll</action>
+								<action>createPoll</action>
 								<action>vote</action>
 								<action>deletePoll</action>
 								<action>deletePollAnswer</action>

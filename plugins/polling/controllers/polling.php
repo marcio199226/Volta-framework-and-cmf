@@ -12,8 +12,12 @@ require_once(DIR_LIBRARY . 'Plugin.php');
 
 class Vf_polling_Plugin extends Vf_Plugin
 {
-	public function create_poll()
+	public function createPoll()
 	{
+		Vf_Loader::loadHelper('Translate');
+		
+		$this->container->language->get()->load('plugins/poll/create.php');
+	
 		$pollingModel = Vf_Orm::factory('polling');
 		$page = $this->container->router->getFrontController();
 		$module = $this->container->router->getFrontControllerAction();
@@ -24,14 +28,21 @@ class Vf_polling_Plugin extends Vf_Plugin
 			$view = new Vf_View('admin/create', 'plugin', 'polling');
 			$view->loadHelper('Form');
 			$view->loadHelper('Box');
-			$view->expiresValues = array('0' => 'Nigdy', '86400' => '24h', '259200' => '3 dni', '604800' => 'Tydzien', '2592000' => 'Miesiac');
+			$view->importFunctions('common');
+			$view->expiresValues = array(
+				'0' => Vf_Translate_Helper::__('pollFormCreateExpiresNever'),
+				'86400' => '24h',
+				'259200' => Vf_Translate_Helper::__('pollFormCreateExpires3Days'),
+				'604800' => Vf_Translate_Helper::__('pollFormCreateExpiresWeek'),
+				'2592000' => Vf_Translate_Helper::__('pollFormCreateExpiresMonth')
+			);
 
 			if ($this->container->request->post('submit_padd_poll')) {
 				$validation = new Vf_Validator();
 				$validation->load('str');
 				$validation->add_data($_POST);				
-				$validation->add_rule('ptitle_poll', new str(array('field' => 'Pytanie', 'required' => true, 'alphadigit' => true, 'max' => 200)));
-				$validation->add_rule('panswers_poll', new str(array('field' => 'Pytanie', 'required' => true, 'max' => 200)));
+				$validation->add_rule('ptitle_poll', new str(array('field' => Vf_Translate_Helper::__('pollFormCreateLabelQuestion'), 'required' => true, 'alphadigit' => true, 'max' => 200)));
+				$validation->add_rule('panswers_poll', new str(array('field' => Vf_Translate_Helper::__('pollFormCreateLabelAnswers'), 'required' => true, 'max' => 200)));
 				$validation->validation();
 				
 				if (sizeof($validation->get_errors()) == 0) {
@@ -45,7 +56,7 @@ class Vf_polling_Plugin extends Vf_Plugin
 						'date_add' => date('d/m/Y'),
 						'date_start' => time(),
 						'date_expire' => $this->container->request->post('expire'),
-						'lang' => Vf_Core::getContainer()->language->get()->getLang()
+						'lang' => $this->container->language->get()->getLang()
 					);
 							
 					$stripNewLinesAnswers = str_replace(array("\n", "\r\n", "\r"), "", $this->clearEndDots($this->container->request->post('panswers_poll')));
@@ -63,15 +74,15 @@ class Vf_polling_Plugin extends Vf_Plugin
 							}
 										
 							if ($pollingModel->addPollAnswers($poll_answer)) {
-								$view->success = 'Ankieta zostala dodana';
+								$view->success = Vf_Translate_Helper::__('pollControllerCreateSuccess');
 							} else {
-								$view->error_add_poll = 'Blad podczas zapisywania odpowiedzi do bazy';
+								$view->error_add_poll = Vf_Translate_Helper::__('pollControllerAddAnswerError');
 							}
 						} else {
-							$view->error_add_poll = 'Blad podczas zapisywania ankiety';
+							$view->error_add_poll = Vf_Translate_Helper::__('pollControllerAddQuestionError');
 						}
 					} else {
-						$view->error_add_poll = 'Ankieta musi posiadac conajmniej 2 odpowiedzi';
+						$view->error_add_poll = Vf_Translate_Helper::__('pollControllerInvalidAnswers');
 					}
 				} else {
 					$view->errors = $validation->get_errors();
@@ -84,6 +95,8 @@ class Vf_polling_Plugin extends Vf_Plugin
 	
 	public function vote()
 	{		
+		Vf_Loader::loadHelper('Translate');
+	
 		$pollingModel = Vf_Orm::factory('polling');
 		$page = $this->container->router->getFrontController();
 		$module = $this->container->router->getFrontControllerAction();
@@ -97,12 +110,15 @@ class Vf_polling_Plugin extends Vf_Plugin
 			$cookieData = unserialize($this->container->request->cookie('poll_voted'));
 		
 			if(($acl->has_role('polling', 'deletePoll') && $acl->has_role('polling', 'deletePollAnswer')) || $acl->has_role('polling', '*')) {
+				$this->container->language->get()->load('plugins/poll/voteAdmin.php');
 				$view = new Vf_View('admin/pollAdmin', 'plugin', 'polling');
 			} else {
+				$this->container->language->get()->load('plugins/poll/vote.php');
 				$view = new Vf_View('poll', 'plugin', 'polling');
 			}
 			
 			$view->loadHelper('Box');
+			$view->importFunctions('common');
 			$view->poll = $pollData;
 			$view->voteMode = $this->settings['vote'];
 		
@@ -121,9 +137,9 @@ class Vf_polling_Plugin extends Vf_Plugin
 						if ($pollingModel->addPollAnswerVote($this->container->request->post('pvote'))) {
 							$cookieData[$pollData[0]['poll_id']] = true;
 							setcookie("poll_voted", serialize($cookieData), time()+2592000);
-							$view->success = 'Twoj glos zostal oddany';
+							$view->success = Vf_Translate_Helper::__('Twoj glos zostal oddany');
 						} else {
-							$view->error_answer = 'Wystapil blad podczas glosowania';
+							$view->error_answer = Vf_Translate_Helper::__('Wystapil blad podczas glosowania');
 						}
 					} else {
 						if (sizeof($this->container->request->post('pvote')) > 0) {
@@ -137,12 +153,12 @@ class Vf_polling_Plugin extends Vf_Plugin
 							if($voteIsAdded) {
 								$cookieData[$pollData[0]['poll_id']] = true;
 								setcookie("poll_voted", serialize($cookieData), time()+2592000);
-								$view->success = 'Twoje glosy zostaly oddane';
+								$view->success = Vf_Translate_Helper::__('Twoje glosy zostaly oddane');
 							} else {
-								$view->error_answer = 'Wystapil blad podczas glosowania';
+								$view->error_answer = Vf_Translate_Helper::__('Wystapil blad podczas glosowania');
 							}
 						} else {
-							$view->error_answer = 'Prosze zaznaczyc przynajmniej jedna odpowiedz';
+							$view->error_answer = Vf_Translate_Helper::__('Prosze zaznaczyc przynajmniej jedna odpowiedz');
 						}
 					}
 				}

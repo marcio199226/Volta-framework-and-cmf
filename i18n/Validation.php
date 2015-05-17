@@ -31,6 +31,9 @@ $translate['pl']['IniSize'] = 'Plik przekracza limit z pliku konfiguracyjnego PH
 $translate['pl']['FileIsNotImage'] = 'Przeslany plik nie jest obrazem';
 $translate['pl']['ImageInvalidSize'] = 'Obraz ma zbyt duze wymiary';
 
+//email.php validator
+$translate['pl']['EmailExists'] = 'Taki email juz istnieje';
+
 //ENG
 
 //str.php validator
@@ -62,6 +65,9 @@ $translate['en']['IniSize'] = 'The file exceeds the limit of the PHP configurati
 $translate['en']['FileIsNotImage'] = 'The uploaded file is not an image';
 $translate['en']['ImageInvalidSize'] = 'Image\'s dimensions is too big';
 
+//email.php validator
+$translate['en']['EmailExists'] = 'This email already exists';
+
 //ITA
 
 //str.php validator
@@ -92,5 +98,8 @@ $translate['it']['ImageDimensions'] = 'Le dimensioni dell\'immagine sono troppo 
 $translate['it']['IniSize'] = 'Il file supera il limite della configurazione PHP';
 $translate['it']['FileIsNotImage'] = 'Il file non e un immagine';
 $translate['it']['ImageInvalidSize'] = 'Le dimensioni dell\'immagine sono troppo grosse';
+
+//email.php validator
+$translate['it']['EmailExists'] = 'Questa email e gia esistente';
 
 ?>

@@ -78,12 +78,12 @@ class Vf_Security
 	*/
 	public function csrf_token_generate()
 	{
-		if ($this->is_csrf()) {
-			$token = substr(md5(uniqid(rand(), true)), 1, 25);
-			Vf_Core::getContainer()->request->response->setSession('token', $token);
-			return $token;
+		if(Vf_Core::getContainer()->request->session('token') === null) {
+			if ($this->is_csrf()) {
+				$token = substr(md5(uniqid(rand(), true)), 1, 25);
+				Vf_Core::getContainer()->request->response->setSession('token', $token, true);
+			}
 		}
-		return null;
 	}
 	
 	
@@ -95,9 +95,15 @@ class Vf_Security
 	public function csrf_check_token($token)
 	{
 		if ($this->csrf) {		
-			return ($token == Vf_Core::getContainer()->request->session('token')) ? true : false; 
+			return ($token == Vf_Core::getContainer()->request->session('token', false)) ? true : false; 
 		}
-		return null;	
+		return false;	
+	}
+	
+	
+	public function getToken()
+	{
+		return Vf_Core::getContainer()->request->session('token', false);
 	}
 }
 

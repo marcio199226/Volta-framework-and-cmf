@@ -102,6 +102,8 @@ final class Vf_Core
 				
 				$appControllerClassName = 'Vf_' . $appController . '_FrontController';
 				
+				Vf_Event::runEvent('system.init');
+				
 				if (class_exists($appControllerClassName)) {
 					Vf_Event::runEvent('system.pre.controller.constructor');
 					$app = new $appControllerClassName();
@@ -123,6 +125,8 @@ final class Vf_Core
 					if(!$this->container->request->isRestful()) {
 						Vf_Event::runEvent('system.display', $output);
 					}
+					
+					Vf_Event::runEvent('system.shutdown');
 					
 					//if compression is turned off set response becouse Vf_CompressApp_Events didn't do anything
 					//moved this part to CompressApp event class
