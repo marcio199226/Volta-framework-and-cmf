@@ -79,12 +79,12 @@ class Vf_Security
 	public function csrf_token_generate()
 	{
 		if ($this->is_csrf()) {
-			$token = substr(md5(uniqid(rand(), true)), 1, 25);
-			if(Vf_Core::getContainer()->request->session('token') === null) {
+			$token = substr(md5(uniqid(rand() . time(), true)), 1, 25);
+			if(Vf_Core::getContainer()->request->session('tokenTime') < (time() - 3600)) {
 				Vf_Core::getContainer()->request->response->setSession('token', $token, true);
 				Vf_Core::getContainer()->request->response->setSession('tokenTime', time(), true);
 			}
-			if(Vf_Core::getContainer()->request->session('tokenTime') < (time() - 30)) {
+			if(Vf_Core::getContainer()->request->session('token') === null) {
 				Vf_Core::getContainer()->request->response->setSession('token', $token, true);
 				Vf_Core::getContainer()->request->response->setSession('tokenTime', time(), true);
 			}

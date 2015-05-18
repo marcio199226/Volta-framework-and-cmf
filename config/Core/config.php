@@ -10,6 +10,9 @@
 
 //definiujemy nasze hooki
 $configs['events'] = array(
+	'system.init' => array(
+		array(new Vf_Csrf_Events(), 'generateToken')
+	),
 	'system.redirect' => array(
 		array('Vf_FlashMessages_Events', 'register')
 	),
@@ -24,9 +27,6 @@ $configs['events'] = array(
 		array(new Vf_Assets(), 'replaceAssets'),
 		array('Vf_CompressApp_Events', 'compress')//if is class name is string so inject container into class contructor
 	),
-	'system.shutdown' => array(
-		array(new Vf_Csrf_Events(), 'generateToken')
-	)
 );
 
 
