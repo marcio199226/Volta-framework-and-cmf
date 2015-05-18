@@ -17,7 +17,7 @@ class Vf_comment_Plugin extends Vf_Plugin
 	{
 		$segment = $this->settings['segment_ref'];
 	
-		$csrf = new Vf_Security();
+		$csrf = Vf_Core::getContainer()->csrf;
 		$captcha = new Vf_Captcha();
 		$captcha->setSize(155, 35);
 		

@@ -16,7 +16,7 @@ class Vf_Validator
 	* @access protected
 	* @var array $validator
 	*/
-	protected $validator = array();
+	protected $validators = array();
 	
 	/**
 	* Dane ktora waliduje klasa
@@ -89,7 +89,11 @@ class Vf_Validator
 	*/
 	public function add_rule($key, IValidation $validator)
 	{
-		$this->validator[$key] = $validator;
+		if(!in_array($key, $this->validators)) {
+			$this->validators[$key][] = $validator;
+		} else {
+			array_merge($this->validators[$key], array($validator));
+		}
 	}	
 	
 	
@@ -99,10 +103,12 @@ class Vf_Validator
 	*/
 	public function validation()
 	{
-		foreach ($this->validator as $key => $object) {
-			$data = $this->validator[$key]->is_valid($this->data[$key]);
-			if ($data !== true) {
-				$this->errors[$key] = $data;
+		foreach ($this->validators as $inputName => $array) {
+			foreach($array as $k => $validator) {
+				$data = $validator->is_valid($this->data[$inputName]);
+				if ($data !== true) {
+					$this->errors[$inputName] = $data;
+				}
 			}
 		}
 	}
