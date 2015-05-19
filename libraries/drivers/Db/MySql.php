@@ -8,8 +8,8 @@
 *@version 1.0
 */
 
-require_once(DIR_ABSTRACT.'Database.php');
-require_once(DIR_INTERFACES.'ITransactions.php');
+require_once(DIR_ABSTRACT . 'Database.php');
+require_once(DIR_INTERFACES . 'ITransactions.php');
 
 class Vf_Mysql_Query_Adapter extends Vf_Database implements ITransactions
 {
@@ -22,20 +22,20 @@ class Vf_Mysql_Query_Adapter extends Vf_Database implements ITransactions
 	
 	public function connect() 
 	{
-		$this -> config = new Vf_Config(DIR_CONFIG, 'Xml');
+		$this->config = new Vf_Config(DIR_CONFIG, 'Xml');
   
-		if($this -> connection = mysql_connect($this -> config -> host, $this -> config -> login, $this -> config -> pwd)) 
+		if($this->connection = mysql_connect($this->config->host, $this->config->login, $this->config->pwd)) 
 		{
-			if(!mysql_select_db($this -> config -> db))
+			if(!mysql_select_db($this->config->db))
 			{
-				throw new Vf_Db_Select_Exception('Wystapil problem podczas wybierania bazy: '.$this -> config -> db);
+				throw new Vf_Db_Select_Exception('Wystapil problem podczas wybierania bazy: '.$this->config->db);
 			}
 		
-			if(!empty($this -> config -> charset)) 
+			if(!empty($this->config->charset)) 
 			{
-				$this -> SetCharset($config -> charset);
+				$this->SetCharset($config->charset);
 			}
-			return $this -> connection;
+			return $this->connection;
 		}
 		else
 		{
@@ -51,7 +51,7 @@ class Vf_Mysql_Query_Adapter extends Vf_Database implements ITransactions
 	*/
 	public function SetCharset($charset) 
 	{
-		$this -> SetQuery('SET NAMES '.$this -> Escape($charset));
+		$this->SetQuery('SET NAMES '.$this->Escape($charset));
 	}
 	
 	
@@ -102,7 +102,7 @@ class Vf_Mysql_Query_Adapter extends Vf_Database implements ITransactions
 	{
 		$lmt = ' LIMIT ';
 		$lmt .= (is_array($limit)) ? implode(',', $limit) : $limit;
-		$this -> query .= $lmt;
+		$this->query .= $lmt;
 	
 		return $this; 
 	}
@@ -134,14 +134,14 @@ class Vf_Mysql_Query_Adapter extends Vf_Database implements ITransactions
 	*/
 	public function Execute() 
 	{
-		$qid = $this -> start();
+		$qid = $this->start();
 
-		if($result = $this -> SetQuery($this -> query)) 
+		if($result = $this->SetQuery($this->query)) 
 		{
-			$this -> reset_query();
-			$this -> stop($qid);
-			$data = ($this -> toObject === true) ? new Vf_Db_MySql_Result($result, $this -> connection) : $result;
-			$this -> toObject = false;
+			$this->reset_query();
+			$this->stop($qid);
+			$data = ($this->toObject === true) ? new Vf_Db_MySql_Result($result, $this->connection) : $result;
+			$this->toObject = false;
 			return $data;
 		}
 		return false;
@@ -150,7 +150,7 @@ class Vf_Mysql_Query_Adapter extends Vf_Database implements ITransactions
 	
 	public function getLastQuery()
 	{
-		return $this -> last_query;
+		return $this->last_query;
 	}
 	
 	
@@ -160,23 +160,23 @@ class Vf_Mysql_Query_Adapter extends Vf_Database implements ITransactions
 	*/
 	public function close() 
 	{
-		if(is_resource($this -> connection)) 
+		if(is_resource($this->connection)) 
 		{
-			mysql_close($this -> connection);
+			mysql_close($this->connection);
 		}
 	}
 	
 	
 	public function begin()
 	{
-		$this -> transaction = true;
+		$this->transaction = true;
 		return @mysql_query('BEGIN');
 	}
 	
 	
 	public function commit()
 	{
-		if($this -> transaction)
+		if($this->transaction)
 		{
 			$this->transaction = false;
 			return @mysql_query('COMMIT');
@@ -186,9 +186,9 @@ class Vf_Mysql_Query_Adapter extends Vf_Database implements ITransactions
 	
 	public function rollback()
 	{
-		if($this -> transaction)
+		if($this->transaction)
 		{
-			$this -> transaction = false;
+			$this->transaction = false;
 			return @mysql_query('ROLLBACK');
 		}
 	}
@@ -227,8 +227,8 @@ class Vf_Mysql_Query_Adapter extends Vf_Database implements ITransactions
 	*/
 	public function Count($table)
 	{
-		$data = $this -> SetQuery('select COUNT(*) from '.$this -> Quote($table));
-		$fetch = $this -> FetchRow($data);
+		$data = $this->SetQuery('select COUNT(*) from '.$this->Quote($table));
+		$fetch = $this->FetchRow($data);
 		return $fetch[0];
 	}
 
@@ -326,52 +326,52 @@ class Vf_Db_Mysql_Result extends Vf_Db_Result
 	public function __construct($resource, $connection, $type = 'FetchAssoc')
 	{
 		parent::__construct($resource, $type);
-		$this -> connection = $connection;
+		$this->connection = $connection;
 		
-		if(is_bool($this -> result))
+		if(is_bool($this->result))
 		{
-			$this -> insert_id = mysql_insert_id($connection);
-			$this -> total_rows = mysql_affected_rows($connection);
+			$this->insert_id = mysql_insert_id($connection);
+			$this->total_rows = mysql_affected_rows($connection);
 		}
-		else if(is_resource($this -> result))
+		else if(is_resource($this->result))
 		{
-			$this -> total_rows = mysql_num_rows($this -> result);
+			$this->total_rows = mysql_num_rows($this->result);
 		}
 	}
 	
 	
 	public function __destruct()
 	{
-		if (is_resource($this -> result))
+		if (is_resource($this->result))
 		{
-			mysql_free_result($this -> result);
+			mysql_free_result($this->result);
 		}
 	}
 	
 	
 	public function FetchAssoc() 
 	{
-		return mysql_fetch_assoc($this -> result);
+		return mysql_fetch_assoc($this->result);
 	}
 	
 	
 	public function FetchObject() 
 	{
-		return mysql_fetch_object($this -> result);
+		return mysql_fetch_object($this->result);
 	}
 	
 	
 	public function FetchRow() 
 	{
-		return mysql_fetch_row($this -> result);
+		return mysql_fetch_row($this->result);
 	}
 	
 	
 	public function seek($offset)
 	{
-		if($offset < $this -> total_rows)
+		if($offset < $this->total_rows)
 		{
-			return mysql_data_seek($this -> result, $offset);
+			return mysql_data_seek($this->result, $offset);
 		}
 		return false;
 	}

@@ -4,8 +4,9 @@
 		<h4><?php print __('logowanie'); ?></h4>
 		<?php 
 			Vf_Form_Helper::open(); 
-			Vf_Form_Helper::text(array('name' => 'login', 'value' => __('formTextLoginValue'), 'class' =>'formAuthInput'));
-			Vf_Form_Helper::password(array('name' => 'password', 'value' => 'password', 'class' =>'formAuthInput'));
+			Vf_Form_Helper::text(array('name' => 'username', 'value' => __('formTextLoginValue'), 'class' =>'formAuthInput'));
+			Vf_Form_Helper::text(array('name' => 'authCaptcha', 'class' =>'formAuthInput'));
+			Vf_Form_Helper::password(array('name' => 'passwd', 'value' => 'password', 'class' =>'formAuthInput'));
 			Vf_Form_Helper::checkbox(array('name' => 'remember_me', 'value' => 'Zapamietaj mnie', 'id' => 'checkbox'));
 			Vf_Form_Helper::submit(array('name' => 'log', 'value' => __('formSubmitValue'), 'id' =>'formAuthButton'));
 			Vf_Form_Helper::close();
@@ -14,11 +15,28 @@
 		?>
 		<table class="tableAuth">
 			<tr>
-				<td><?php print $form['login']; ?></td>
+				<td><?php print $form['username']; ?></td>
 			</tr>
 			<tr>
-				<td><?php print $form['password']; ?></td>
+				<td><?php print $form['passwd']; ?></td>
 			</tr>
+			<?php if(isset($captcha)): ?>
+				<tr>
+					<td align="center">
+						<?php print __('Przepisz captche'); ?>
+						<Br />
+						<?php print $captcha; ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center"><?php print $form['authCaptcha']; ?></td>
+				</tr>
+			<?php endif; ?>
+			<?php if(isset($invalidCaptcha)): ?>
+				<tr>
+					<td align="center"><?php print Vf_Box_Helper::error($invalidCaptcha); ?></td>
+				</tr>
+			<?php endif; ?>
 			<?php if($remember == 1): ?>
 				<tr>
 					<td>

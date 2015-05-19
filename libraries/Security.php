@@ -80,11 +80,8 @@ class Vf_Security
 	{
 		if ($this->is_csrf()) {
 			$token = substr(md5(uniqid(rand() . time(), true)), 1, 25);
-			if(Vf_Core::getContainer()->request->session('tokenTime') < (time() - 3600)) {
-				Vf_Core::getContainer()->request->response->setSession('token', $token, true);
-				Vf_Core::getContainer()->request->response->setSession('tokenTime', time(), true);
-			}
-			if(Vf_Core::getContainer()->request->session('token') === null) {
+			if (Vf_Core::getContainer()->request->session('tokenTime') < (time() - 3600)
+				|| Vf_Core::getContainer()->request->session('token') === null) {
 				Vf_Core::getContainer()->request->response->setSession('token', $token, true);
 				Vf_Core::getContainer()->request->response->setSession('tokenTime', time(), true);
 			}
@@ -102,7 +99,7 @@ class Vf_Security
 		if ($this->csrf) {		
 			return ($token == Vf_Core::getContainer()->request->session('token', false)) ? true : false; 
 		}
-		return false;	
+		return true;	
 	}
 	
 	
