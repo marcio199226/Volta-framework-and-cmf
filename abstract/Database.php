@@ -43,7 +43,7 @@ abstract class Vf_Database
 	*/
 	public function objectResult($object = true)
 	{
-		$this -> toObject = $object;
+		$this->toObject = $object;
 		return $this;
 	}
 	
@@ -92,11 +92,11 @@ abstract class Vf_Database
 			{
 				if($callbackAs !== false) 
 				{
-					$selectCall = $this -> CallBackFunc($callbackFunc, $rows, $callbackAs); 
+					$selectCall = $this->CallBackFunc($callbackFunc, $rows, $callbackAs); 
 				}
 				else
 				{
-					$selectCall = $this -> CallBackFunc($callbackFunc, $rows, false);  
+					$selectCall = $this->CallBackFunc($callbackFunc, $rows, false);  
 				}
 			}
 			else
@@ -116,7 +116,7 @@ abstract class Vf_Database
 	
 		$select .= ' FROM ';
 		$select .= (is_array($table)) ? implode(',', $table) : $table;
-		$this -> query .= $select;
+		$this->query .= $select;
 		
 		return $this;
 	}
@@ -138,16 +138,16 @@ abstract class Vf_Database
 			{
 				if(!strstr($name, '='))
 				{
-					$data[] = $name.'='.$this -> Escape($value);
+					$data[] = $name.'='.$this->Escape($value);
 				}
 				else if(strstr($name, '='))
 				{
-					$data[] = $name.$this -> Escape($value);
+					$data[] = $name.$this->Escape($value);
 				}
 			}	
 		}
 		$whr .= implode(' and ', $data);
-		$this -> query .= $whr;
+		$this->query .= $whr;
 	
 		return $this;
 	}
@@ -169,16 +169,16 @@ abstract class Vf_Database
 			{
 				if(!strstr($name, '='))
 				{
-					$data[] = $name.'='.$this -> Escape($value);
+					$data[] = $name.'='.$this->Escape($value);
 				}
 				else if(strstr($name, '='))
 				{
-					$data[] = $name.$this -> Escape($value);
+					$data[] = $name.$this->Escape($value);
 				}
 			}
 		}
 		$whr .= implode(' or ', $data);
-		$this -> query .= $whr;
+		$this->query .= $whr;
 	
 		return $this;
 	}
@@ -202,15 +202,15 @@ abstract class Vf_Database
 		
 		if($contain == '%%')
 		{
-			$search_contain = '%'.$this -> Escape($value).'%';
+			$search_contain = '%'.$this->Escape($value).'%';
 		}
 		else if($contain == '%*')
 		{
-			$search_contain = '%'.$this -> Escape($value);
+			$search_contain = '%'.$this->Escape($value);
 		}
 		else if($contain == '*%')
 		{
-			$search_contain = $this -> Escape($value).'%';
+			$search_contain = $this->Escape($value).'%';
 		}
 			
 	
@@ -222,7 +222,7 @@ abstract class Vf_Database
 			}
 		}
 		$likeSql .= implode($ex, $likes);
-		$this -> query .= $likeSql;
+		$this->query .= $likeSql;
 	
 		return $this;
 	}
@@ -262,7 +262,7 @@ abstract class Vf_Database
 		{
 			$join .= ' USING('.$on.')';
 		}
-		$this -> query .= $join;
+		$this->query .= $join;
 		
 		return $this;
 	}
@@ -270,14 +270,14 @@ abstract class Vf_Database
 	
 	public function andClause()
 	{
-		$this -> query = 'AND';
+		$this->query = 'AND';
 		return $this;
 	}
 	
 	
 	public function orClause()
 	{
-		$this -> query = 'OR';
+		$this->query = 'OR';
 		return $this;
 	}
 	
@@ -299,27 +299,27 @@ abstract class Vf_Database
 	
 		if(count($selectRows) > 0 && count($conf) > 0)	
 		{
-			$this -> query .= ' WHERE '.$conf[1].$inClause.'(';
+			$this->query .= ' WHERE '.$conf[1].$inClause.'(';
 	  
 			if(isset($where) && count($where) > 0) 
 			{
-				$this -> Select($selectRows, $conf[0], $conf[2], $conf[3]);
-				$this -> Where($where);			  
+				$this->Select($selectRows, $conf[0], $conf[2], $conf[3]);
+				$this->Where($where);			  
 			}
 			else 
 			{
-				$this -> Select($selectRows, $conf[0], $conf[2], $conf[3]);
+				$this->Select($selectRows, $conf[0], $conf[2], $conf[3]);
 			}
 	
-			$this -> query .= ')';	
+			$this->query .= ')';	
 		}
 		else
 		{
 			foreach($in as $escIn)
 			{
-				$escapeIn[] = $this -> Escape($escIn);
+				$escapeIn[] = $this->Escape($escIn);
 			}	
-			$this -> query .= ' WHERE '.$column.$inClause.'('.implode(',', $escapeIn).')';
+			$this->query .= ' WHERE '.$column.$inClause.'('.implode(',', $escapeIn).')';
 		}
   
 		return $this; 
@@ -363,7 +363,7 @@ abstract class Vf_Database
 			$argv = func_get_args();
 			$orderBy = ' ORDER BY '.$argv[0].' '.strtoupper($argv[1]);
 		}
-		$this -> query .= $orderBy; 
+		$this->query .= $orderBy; 
 		return $this;
 	}
 	
@@ -391,7 +391,7 @@ abstract class Vf_Database
 			$groupSql .= $group;
 		}
 
-		$this -> query .= $groupSql;
+		$this->query .= $groupSql;
 		return $this;
 	}
 	
@@ -426,12 +426,12 @@ abstract class Vf_Database
 	  
 			foreach($records as $column => $record)
 			{
-				$insRec[] = $this -> Escape($record);
+				$insRec[] = $this->Escape($record);
 			}
 			$insert .= implode(',', $insRec);
 			$insert .= ')';
 		}
-		return $this -> SetQuery($insert);
+		return $this->SetQuery($insert);
 	}
 	
 	
@@ -460,13 +460,13 @@ abstract class Vf_Database
 				$values = array();
 				foreach($record as $column => $value)
 				{
-					$values[] = $this -> Escape($value);
+					$values[] = $this->Escape($value);
 				}
 				$inserts[] = '( '.implode(',', $values).' )';
 			}
 			$insert .= implode(',', $inserts);
 		}
-		return $this -> SetQuery($insert);
+		return $this->SetQuery($insert);
 	}
   
   
@@ -485,12 +485,12 @@ abstract class Vf_Database
 		{
 			foreach($where as $key => $value)
 			{
-				$del[] = $key.$condition.$this -> Escape($value);
+				$del[] = $key.$condition.$this->Escape($value);
 			}
 		}
 		$delete .= implode(' and ', $del);
 	
-		return $this -> SetQuery($delete);
+		return $this->SetQuery($delete);
 	}
   
   
@@ -508,7 +508,7 @@ abstract class Vf_Database
 		{
 			foreach($set as $key => $val)
 			{
-				$setValue[] = $key.'='.$this -> Escape($val);
+				$setValue[] = $key.'='.$this->Escape($val);
 			}
 		}
 		
@@ -516,12 +516,12 @@ abstract class Vf_Database
 		{
 			foreach($where as $key => $value)
 			{
-				$up[] = $key.'='.$this -> Escape($value);
+				$up[] = $key.'='.$this->Escape($value);
 			}
 		}
 			
 		$update = 'UPDATE '.$table.' SET '.implode(',', $setValue).' WHERE '.implode(' and ', $up);
-		return $this -> SetQuery($update);
+		return $this->SetQuery($update);
 	}
 	
 	
@@ -531,7 +531,7 @@ abstract class Vf_Database
 	*/
 	protected function reset_query()
 	{
-		$this -> query = '';
+		$this->query = '';
 	}
 	
 	
@@ -542,10 +542,10 @@ abstract class Vf_Database
 	*/
 	protected function start()
 	{
-		if($this -> benchmark === true) 
+		if($this->benchmark === true) 
 		{
 			$qid = uniqid();
-			Vf_Database::$benchmarks[$qid]['query'] = $this -> query;
+			Vf_Database::$benchmarks[$qid]['query'] = $this->query;
 			Vf_Database::$benchmarks[$qid]['init_time'] = microtime();
 			return $qid; 
 		}
@@ -559,7 +559,7 @@ abstract class Vf_Database
 	*/
 	protected function stop($qid)
 	{
-		if($this -> benchmark === true) 
+		if($this->benchmark === true) 
 		{
 			Vf_Database::$benchmarks[$qid]['time'] = number_format(microtime() - Vf_Database::$benchmarks[$qid]['init_time'], 6);
 			Vf_Database::$benchmarks['all_time'] += Vf_Database::$benchmarks[$qid]['time'];
@@ -600,14 +600,14 @@ abstract class Vf_Db_Result implements ArrayAccess, Iterator, Countable
 	
 	public function __construct($resource, $type = 'FetchAssoc')
 	{
-		$this -> result = $resource;
-		$this -> fetch = $type;
+		$this->result = $resource;
+		$this->fetch = $type;
 	}
 	
 	
 	public function setFetchMethod($fetch)
 	{
-		$this -> fetch = $fetch;
+		$this->fetch = $fetch;
 	}
 	
 	
@@ -619,28 +619,28 @@ abstract class Vf_Db_Result implements ArrayAccess, Iterator, Countable
 	
 	public function FetchField($field)
 	{
-		$row = $this -> current();
+		$row = $this->current();
 		return $row[$field];
 	}
 	
 	
 	public function insert_id()
 	{
-		return $this -> insert_id;
+		return $this->insert_id;
 	}
 	
 	
 	//Countable
 	public function count()
 	{
-		return $this -> total_rows;
+		return $this->total_rows;
 	}
 	
 	
 	//ArrayAccess
 	public function offsetExists($offset)
 	{
-		return $this -> seek($offset);
+		return $this->seek($offset);
 	}
 	
 	
@@ -652,11 +652,11 @@ abstract class Vf_Db_Result implements ArrayAccess, Iterator, Countable
 	
 	public function offsetGet($offset)
 	{
-		if(!$this -> seek($offset))
+		if(!$this->seek($offset))
 		{
 			return false;
 		}
-		return call_user_func(array(&$this, $this -> fetch));
+		return call_user_func(array(&$this, $this->fetch));
 	}
 	
 	
@@ -669,40 +669,40 @@ abstract class Vf_Db_Result implements ArrayAccess, Iterator, Countable
 	//Iterator
 	public function key()
 	{
-		return $this -> current;
+		return $this->current;
 	}
 	
 	
 	public function current()
 	{
-		return $this -> offsetGet($this -> current);
+		return $this->offsetGet($this->current);
 	}
 	
 	
 	public function rewind()
 	{
-		$this -> current = 0;
+		$this->current = 0;
 		return $this;
 	}
 	
 	
 	public function prev()
 	{
-		$this -> seek(--$this -> current);
+		$this->seek(--$this->current);
 		return $this;
 	}
 	
 	
 	public function next()
 	{
-		$this -> seek(++$this -> current);
+		$this->seek(++$this->current);
 		return $this;
 	}
 	
 	
 	public function valid()
 	{
-		return $this -> offsetExists($this -> current);
+		return $this->offsetExists($this->current);
 	}
 }
 

@@ -67,6 +67,16 @@ class Vf_auth_Component extends Vf_Controller
 			$view->importFunctions('common');
 			$view->remember = $authCfg->remember;
 			
+			//display recovery password link in auth component
+			try {
+				$registerCfg = new Vf_Config('config.register', 'Xml');
+				if($registerCfg->retrieve_password == 1) {
+					$view->recoveryPassword = true;
+				}
+			} catch(Vf_Config_Xml_Adapter_Exception $e) {
+				$view->recoveryPassword = false;
+			}
+			
 			//if is guest and remeber is enabled so try to authenticate user
 			if ($authCfg->remember == 1) {
 				$this->autoLogIn();

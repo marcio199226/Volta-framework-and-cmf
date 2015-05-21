@@ -5,11 +5,11 @@
 }
 
 .formAuthInput {
-	height:30px;
-	width:220px;
-	padding:2px;
-	background-color:#ffffff;
-	border:2px solid #B8860B;
+	height: 30px;
+	width: 220px;
+	padding: 2px;
+	background-color: #ffffff;
+	border: 2px solid #B8860B;
 }
 
 #formAuthButton {
@@ -17,11 +17,11 @@
 	background: #333;
 	color: #ffffff;
 	font-weight: bold;
-	padding: 5px 10px;
+	padding: 10px 10px;
 	font-size: 12px;
 	font-family: Tahoma, Geneva, sans-serif;
 	letter-spacing: 1px;
-	width: auto;
+	width: 100%;
 	overflow: visible;
 }
 

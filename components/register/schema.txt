@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS `accounts` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `login` varchar(20) NOT NULL,
+ `code` varchar(20) NOT NULL,
+ `active` int(1) NOT NULL,
+ PRIMARY KEY (`id`),
+ KEY `code` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
+
+CREATE TABLE IF NOT EXISTS `recovered_password` (
+ `id` int(4) NOT NULL AUTO_INCREMENT,
+ `user_id` int(11) NOT NULL,
+ `hash` varchar(30) NOT NULL,
+ `expires` datetime NOT NULL,
+ PRIMARY KEY (`id`),
+ KEY `hash` (`hash`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin2

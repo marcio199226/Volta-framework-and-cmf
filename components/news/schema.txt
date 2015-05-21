@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `news` (
  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
 
-CREATE TABLE `news_translations` (
+CREATE TABLE IF NOT EXISTS `news_translations` (
  `id` int(5) NOT NULL AUTO_INCREMENT,
  `id_news` int(5) NOT NULL,
  `title` varchar(50) NOT NULL,

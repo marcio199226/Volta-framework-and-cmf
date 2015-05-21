@@ -47,8 +47,17 @@
 					</td>
 				</tr>
 			<?php endif; ?>
+			<?php if(isset($recoveryPassword) && $recoveryPassword === true): ?>
 			<tr>
-				<td align="center"><?php print $form['log']; ?></td>
+				<td style="text-align: left;">
+					<a href="Home,Register,retrievePassword" style="text-decoration: none;"><?php print __('Zapomnialem haslo'); ?></a>
+				</td>
+			</tr>
+			<?php endif; ?>
+			<tr>
+				<td style="text-align: left;">
+					<?php print $form['log']; ?>
+				</td>
 			</tr>
 			<?php if(isset($msg)): ?>
 				<tr>

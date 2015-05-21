@@ -13,6 +13,8 @@ $translate['pl']['registerRePasswordLabel'] = 'Powtorz haslo:';
 $translate['pl']['registerEmailLabel'] = 'Email:';
 
 //controllers
+$translate['pl']['registerFormPasswordLabel'] = 'haslo';
+$translate['pl']['registerFormRePasswordLabel'] = 'powtorz haslo';
 $translate['pl']['Zostales zarejestrowany, mozesz sie zalogowac'] = 'Zostales zarejestrowany, mozesz sie zalogowac';
 $translate['pl']['Link Aktywacyjny'] = 'Link Aktywacyjny';
 $translate['pl']['Zostales zarejestrowany, na twoj adres email zostal wyslany link aktywujacy konto'] = 'Zostales zarejestrowany, na twoj adres email zostal wyslany link aktywujacy konto';
@@ -34,6 +36,8 @@ $translate['en']['registerRePasswordLabel'] = 'Repeat password:';
 $translate['en']['registerEmailLabel'] = 'Email:';
 
 //controllers
+$translate['en']['registerFormPasswordLabel'] = 'password';
+$translate['en']['registerFormRePasswordLabel'] = 'repeat password';
 $translate['en']['Zostales zarejestrowany, mozesz sie zalogowac'] = 'You have been registred, you can login';
 $translate['en']['Link Aktywacyjny'] = 'Activation link';
 $translate['en']['Zostales zarejestrowany, na twoj adres email zostal wyslany link aktywujacy konto'] = 'You have been registered on your e-mail address was sent a link to activate your account';
@@ -55,6 +59,8 @@ $translate['it']['registerRePasswordLabel'] = 'Ripeti password:';
 $translate['it']['registerEmailLabel'] = 'Email:';
 
 //controllers
+$translate['it']['registerFormPasswordLabel'] = 'password';
+$translate['it']['registerFormRePasswordLabel'] = 'ripeti password';
 $translate['it']['Zostales zarejestrowany, mozesz sie zalogowac'] = 'Sei stato registrato adesso puoi entrare';
 $translate['it']['Link Aktywacyjny'] = 'Link di attivazione';
 $translate['it']['Zostales zarejestrowany, na twoj adres email zostal wyslany link aktywujacy konto'] = 'Sei stato registrato al tuo indirizzo email e stato inviato un link per attivare l\'account';

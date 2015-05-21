@@ -11,7 +11,7 @@
 require_once(DIR_INTERFACES . 'INotify.php');
 require_once(DIR_ABSTRACT . 'Notify.php');
 
-class Vf_Notify_User_Add extends Vf_Notify_Abstract implements INotify
+class Vf_Notify_Retrieve_Password extends Vf_Notify_Abstract implements INotify
 {
 	//nie ma nic do zmiany
 }

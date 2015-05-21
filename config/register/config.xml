@@ -7,5 +7,10 @@
 	</cached_action>
 	<lifetime>0</lifetime>
 	<admin_panel>0</admin_panel>
+	<db_table>
+		<table>accounts</table>
+		<table>recovered_password</table>
+	</db_table>
 	<account_activate>1</account_activate>
+	<retrieve_password>1</retrieve_password>
 </config>

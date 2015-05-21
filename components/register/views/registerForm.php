@@ -2,7 +2,7 @@
 <div class="box">
 <h5><?php print __('registerLabel'); ?></h5>
 	<?php 
-		Vf_Form_Helper::open(); 
+		Vf_Form_Helper::open('', 'post', true); 
 		Vf_Form_Helper::text('login', __('registerFormUserTextValue'), 'height:30px;width:350px;padding:2px;background-color:#ffffff;border:2px solid #B8860B;');
 		Vf_Form_Helper::password('password', 'haslo', 'height:30px;width:350px;padding:2px;background-color:#ffffff;border:2px solid #B8860B;');
 		Vf_Form_Helper::password('re_password', 'haslo2', 'height:30px;width:350px;padding:2px;background-color:#ffffff;border:2px solid #B8860B;');
