@@ -105,10 +105,12 @@ class Vf_Validator
 	{
 		foreach ($this->validators as $inputName => $array) {
 			foreach($array as $k => $validator) {
-				$data = $validator->is_valid($this->data[$inputName]);
-				if ($data !== true) {
-					$this->errors[$inputName] = $data;
-				}
+				if($validator instanceof IValidation) {
+					$data = $validator->is_valid($this->data[$inputName]);
+					if ($data !== true) {
+						$this->errors[$inputName] = $data;
+					}
+				}		
 			}
 		}
 	}

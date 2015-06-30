@@ -24,6 +24,7 @@ class Vf_Assets
 		$js_inline = array();
 		$css = array();
 		$js = array();
+		$paths = array();
 		$inlines = array(
 			'css' => $assets_inline_css[1],
 			'js' => $assets_inline_js[1]
@@ -31,10 +32,15 @@ class Vf_Assets
 		
 		if (sizeof($assets_external[1]) > 0) {
 			foreach ($assets_external[1] as $key => $type) {
-				if($type == 'css') {
-					$css[] = "\n<link rel=\"stylesheet\" type=\"text/css\" href=" . $assets_external[2][$key] . " />\n";
-				} elseif($type == 'js') {
-					$js[] =  "\n<script type=\"text/javascript\" src=" . $assets_external[2][$key] . "></script>\n";
+				if ($this->exist($paths, $assets_external[2][$key])) {
+					continue;
+				}
+				if ($type == 'css') {
+					$paths[] = $assets_external[2][$key];
+					$css[] = "\n<link rel=\"stylesheet\" type=\"text/css\" href=\"". $assets_external[2][$key] . "\" />\n";
+				} elseif ($type == 'js') {
+					$paths[] = $assets_external[2][$key];
+					$js[] =  "\n<script type=\"text/javascript\" src=\"" . $assets_external[2][$key] . "\"></script>\n";
 				}
 			}
 		}
@@ -43,8 +49,8 @@ class Vf_Assets
 				foreach ($inline as $code) {
 					$css_inline[] = "\n<style type=\"text/css\">" . $code . "</style>\n";
 				}
-			} elseif($type == 'js') {
-				foreach($inline as $code) {
+			} elseif ($type == 'js') {
+				foreach ($inline as $code) {
 					$js_inline[] = "\n<script type=\"text/javascript\">" . $code . "</script>\n";
 				}
 			}
@@ -56,6 +62,12 @@ class Vf_Assets
 		$jsString = (empty($jsString)) ? '' : $jsString;
 		$html = str_replace(array('{@ css @}', '{@ javascripts @}'), array($cssString, $jsString), $html);
 		$html = preg_replace('/{@ assets type="(img|css|js)" path="(.*)" @}/', '', $html);
+	}
+	
+	
+	private function exist($assets, $current)
+	{
+		return (in_array($current, $assets)) ? true : false;
 	}
 }
 

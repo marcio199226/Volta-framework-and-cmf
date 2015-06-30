@@ -33,6 +33,11 @@ $routes['dynamic'] = array(
 
 $routes['rest'] = array(
 	'news' => array(
+		'getLastNews' => array(
+			'method' => 'get',
+			'apiKey' => true,
+			'status' => 200
+		),
 		'test' => array(
 			'method' => 'post',
 			'apiKey' => true,

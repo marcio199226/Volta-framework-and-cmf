@@ -455,12 +455,12 @@ class Vf_RestfulServer
 	{
 		if($this->checkIp) {
 			$this->retrieveParameters();
-			
 			return Vf_Orm::factory('RestfulApiKey') 
 				-> setPrimaryKey('ip') 
 				-> find($this->getIp())
 				-> isLoaded();
 		}
+		return true;
 	}
 	
 	

@@ -14,6 +14,7 @@ define('DIR_MODELS', 'models/');
 define('DIR_VIEWS' , 'views/');
 define('DIR_PLUGINS' , 'plugins/');
 define('DIR_COMPONENTS' , 'components/');
+define('DIR_VIEW_FORMS' , 'forms/');
 define('DIR_WIDGETS' , 'widgets/');
 define('DIR_WIDGETS_CFG', 'widgets/config/');
 define('DIR_WIDGETS_CTRL' , 'widgets/controllers/');

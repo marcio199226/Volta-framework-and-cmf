@@ -12,6 +12,15 @@ require_once(DIR_LIBRARY.'RestfulServer.php');
 
 class Vf_news_Rest_Component extends Vf_RestfulServer
 {
+
+	public function getLastNews()
+	{
+		$model = Vf_Orm::factory('news');
+		return $model->getAllNews('pl', 0, 8);
+	}
+	
+	
+	
 	public function test()
 	{
 		return array(0 => array('a', 'b'), 1 => array('c', 'd'));

@@ -7,7 +7,7 @@
 {@ css @}
 </head>
 <body>
-	<div style="margin: 1% auto auto 69%;position: absolute;">
+	<div style="margin: 1% auto auto 65%;position: absolute;">
 		<?php print Vf_Loader::loadWidget('languagePicker'); ?>
 	</div>
 	<div id="container">

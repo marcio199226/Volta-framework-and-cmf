@@ -27,12 +27,11 @@ class Vf_news_Component extends Vf_Controller
 	{
 		$translate = Vf_Language::instance();
 		$translate->get()->load('components/news/list.php');
-		
 		Vf_Loader::loadHelper('Uri');
-		
 		$model = Vf_Orm::factory('news');
 		
 		$pager = new Vf_Pagination();
+		$pager->setView('bootstrapSimple');
 		$pager->setTotal($model->countNews($translate->get()->getLang()));
 		$pager->setPerPage(5);
 		$pager->setUriSegment($this->uri->getSegment());
@@ -50,7 +49,7 @@ class Vf_news_Component extends Vf_Controller
 		$response = $view->render();
 		Vf_Core::getContainer()->request->response->cache('public', 86400); //1 day
 		Vf_Core::getContainer()->request->response->etag($response, true);
-		Vf_Core::getContainer()->request->response->expires(time() + 3600);
+		Vf_Core::getContainer()->request->response->expires(time() + 86400);
 		//Vf_Core::getContainer()->request->response->lastModified();
 		//Vf_Core::getContainer()->request->response->setHttpStatus(200);
 		return $response;
